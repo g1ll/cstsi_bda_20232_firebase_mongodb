@@ -3,12 +3,22 @@ import { update,ref} from "firebase/database";
 
 const updatedObjects = {}
 
-updatedObjects['users/-NQ0NYHJfE4Mx3yoIblz/email'] = "UPDATED"
-updatedObjects['users/-NQ0QYOGoPJQyRkMZiep/profifle_picture'] = "UPDATED"
-updatedObjects['users/-NQ0QYzK2U1C9gEOmihE/username'] = "UPDATED"
+/*
+-NQ1SPJa0zcK6BQQdjZn
+-NQ1SPo_T0HV0LZyDZai
+-NQ1SQNpv5l8O56mzUWI
+*/
+
+updatedObjects['users/-NQ1SPJa0zcK6BQQdjZn/email'] = "UPDATED"
+updatedObjects['users/-NQ1SPo_T0HV0LZyDZai/profifle_picture'] = "UPDATED"
+updatedObjects['users/-NQ1SQNpv5l8O56mzUWI/username'] = "UPDATED"
+
+
+console.log(updatedObjects)
+
 setTimeout(() => {
-	update(ref(db,'users'), updatedObjects)
+	update(ref(db), updatedObjects)
 	.then(() => console.log('Atualização executada!'))
 	.catch(() => console.error('Erro!'))
 	.finally(()=>process.exit(0))
-}, 1000);
+}, 1500);
