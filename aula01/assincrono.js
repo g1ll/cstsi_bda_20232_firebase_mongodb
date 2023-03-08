@@ -12,10 +12,12 @@ const assincrono = ()=> new Promise((resolve,reject)=>{
         
         let rand = Math.random()
         let timeReject = delay*rand
+        
         setTimeout(()=>reject('rejeitado'),timeReject)
         
         rand = Math.random()
         let timeResolve = delay*rand
+        
         setTimeout(callback,timeResolve)
 
         console.log(`pendente: 
