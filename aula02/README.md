@@ -1,7 +1,7 @@
 ## CSTSI BDA - AULA02
 
 Exemplos vistos na segunda aula da disciplina.
-Para executar os exemplos rode o seguinte comando:
+Para executar os exemplos rode o seguinte comando no terminal e na mesma pasta do arquivo:
 ```bash
 	node nomeDoScript.js
 ```
