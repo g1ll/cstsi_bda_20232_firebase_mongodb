@@ -1,8 +1,7 @@
-// Import the functions you need from the SDKs you need
-import db from "./database.js";
+import db from "../libs/firebase/rtdb_conection.js";
 import {ref, set} from "firebase/database";
 
-const newUserID = 2;
+const newUserID = 3;
 const refNode = ref(db,`users/${newUserID}`);
 const newUserData = {
 	email:"beltrano@hotmail.com"

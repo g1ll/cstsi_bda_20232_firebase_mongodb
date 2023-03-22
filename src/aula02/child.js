@@ -1,8 +1,8 @@
 // Import the functions you need from the SDKs you need
-import db from "./database.js";
+import db from "../libs/firebase/rtdb_conection.js";
 import {ref, child,set} from "firebase/database";
 
-const refNode = ref(db,'users/-NQ1ECT2srezfshww1V6')
+const refNode = ref(db,'users/-NR8_2qC7w1AgdntUekA')
 const refAttr = child(refNode,'username')
 
 try{

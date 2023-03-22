@@ -1,4 +1,4 @@
-import db from "./database.js"
+import db from "../libs/firebase/rtdb_conection.js";
 import { update,ref} from "firebase/database";
 
 const updatedObject = {
