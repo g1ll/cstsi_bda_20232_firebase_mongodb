@@ -1,0 +1,27 @@
+{
+	"rules": {
+		".read": "now < 1672369200000", // 2022-12-30
+		"produtos": {
+			".indexOn": [
+				"preco",
+				"nome"
+			],
+			"$id": {
+				".write": "root.child('users').hasChild(auth.uid)",
+				".validate": "newData.hasChildren(['nome','preco','qtd_estoque'])", //testa se existe o campo nome
+				//".write": "!data.exists() || !newData.exists()",
+				"qtd_estoque": {
+					".validate": "newData.isNumber()&& newData.val()>0"
+				},
+				"importado": {
+					".validate": "newData.isBoolean()",
+				}
+			}
+		},
+		"users": {
+			"$uid": {
+				".write": "$uid===auth.uid"
+			}
+		}
+	}
+}

@@ -1,0 +1,23 @@
+{
+	"rules": {
+	  ".read": "now < 1680836400000",  // 2023-4-7
+	  // ".write": "now < 1680836400000",  // 2023-4-7
+	  "produtos":{
+		".indexOn":["preco","nome"],
+		"$idProd":{
+			  ".write":"newData.child('nome').exists() && newData.hasChild('preco') && newData.child('preco').val()>0",
+			  "qtd_estoque":{
+					  ".validate":"newData.isNumber()"
+			},
+			"descricao":{
+				  ".validate":"newData.isString() && newData.val().length<250"
+			}
+			  }
+	  },
+	  "users":{
+		  "$uid":{
+				".write": "$uid===auth.uid"
+		  }
+	  }
+	}
+  }

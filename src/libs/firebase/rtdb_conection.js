@@ -1,3 +1,4 @@
+import "dotenv/config"
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import {getDatabase} from "firebase/database";
@@ -6,13 +7,13 @@ import {getDatabase} from "firebase/database";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-	apiKey: "AIzaSyDyrx81fWfABfEbfLreS2FcAtC0XHeX-U8",
-	authDomain: "cstsi-dba-5sem-90926.firebaseapp.com",
-	databaseURL: "https://cstsi-dba-5sem-90926-default-rtdb.firebaseio.com",
-	projectId: "cstsi-dba-5sem-90926",
-	storageBucket: "cstsi-dba-5sem-90926.appspot.com",
-	messagingSenderId: "249137749337",  
-	appId: "1:249137749337:web:2e9707ab7b4b0882ba4048"
+	apiKey: process.env.APP_API_KEY,
+    authDomain: process.env.APP_AUTH_DOMAIN,
+    databaseURL: process.env.APP_DATABASE_URL,
+    projectId: process.env.APP_PROJECT_ID,
+    storageBucket: process.env.APP_STORAGE_BUCKET,
+    messagingSenderId: process.env.APP_MESSAGING_SENDER_ID,
+    appId: process.env.APP_APP_ID
 };
 
 // Initialize Firebase

@@ -1,0 +1,11 @@
+{
+	"rules": {
+		"produtos": {
+			".read": true,
+			".indexOn": ["preco", "qtd_estoque", "id_prod"],
+			"$idProd": {
+				".write": "newData.hasChild('nome') && newData.child('qtd_estoque').val()>1",
+			}
+		}
+	}
+}
