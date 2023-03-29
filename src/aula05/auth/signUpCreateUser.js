@@ -18,7 +18,7 @@ const auth = getAuth();
 // }
 
 const user = {
-    email: 'gillgonzales@ifsul.edu.br',
+    email: 'gillvelleda@gmail.com',
     password: 'qwerty'
 }
 
