@@ -19,16 +19,25 @@ const user2 = {
 	prodId: '-NRj06ZguUY4OYPWkQmx'
 }
 
+const user3 = {
+    email: 'gillvelleda@gmail.com',
+    password: 'qwerty',
+	prodId: '-NRjk8HzeGn7LdV2qDFm'
+}
+
+
 //###LOGIN ASYNC/AWAIT
 try {
 	const credentials = await signInWithEmailAndPassword(
         auth, user1.email, user1.password)
 	
-	const newProd = {nome: 'UPDATED',userUid:credentials.user.uid}
+	const newProd = {nome: 'UPDATE',userUid:credentials.user.uid}
+	// const newProd = {nome: 'UPDATED'}
     //Deve gerar erro segunda as regras de rules/rule_permission
     //user1 não deve alterar o produto com userId do user2
     //alterar para user1.prodId
-	await update(ref(db,'produtos/'+user2.prodId),newProd);
+    console.log(credentials.user.uid)
+	await update(ref(db,'produtos/'+user3.prodId),newProd);
 	console.log(newProd);
 
 } catch (error) {
