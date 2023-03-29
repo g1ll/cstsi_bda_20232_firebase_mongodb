@@ -7,7 +7,7 @@
 		"$idProd":{
 			 //O produto so pode ser alterado pelo usuario que cadastrou o mesmo
 			 //ou seja, o campo userUid em produto deve ser iqual ao auth.uid
-			  ".write":"newData.child('userUid').val() === auth.uid",
+			  ".write":"data.child('userUid').val() === auth.uid",
 			  "qtd_estoque":{
 					  ".validate":"newData.isNumber()"
 			},
