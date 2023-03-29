@@ -25,7 +25,9 @@ try {
         auth, user1.email, user1.password)
 	
 	const newProd = {nome: 'UPDATED'}
-
+    //Deve gerar erro segunda as regras de rules/rule_permission
+    //user1 não deve alterar o produto com userId do user2
+    //alterar para user1.prodId
 	await update(ref(db,'produtos/'+user2.prodId),newProd);
 	console.log(newProd);
 
