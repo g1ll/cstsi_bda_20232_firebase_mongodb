@@ -8,7 +8,7 @@ import {
 const auth = getAuth();
 
 const user = {
-    email: 'velledagonzales@gmail.com',
+    email: 'gillvelleda@gmail.com',
     password: 'qwerty'
 }
 
