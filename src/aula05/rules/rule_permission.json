@@ -1,31 +1,36 @@
 {
 	"rules": {
-	  ".read": "now < 1680836400000",  // 2023-4-7
-	  // ".write": "now < 1680836400000",  // 2023-4-7
-	  "produtos":{
-		".indexOn":["preco","nome"],
-		"$idProd":{
-			 //O produto so pode ser alterado pelo usuario que cadastrou o mesmo
-			 //ou seja, o campo userUid em produto deve ser iqual ao auth.uid
-			  ".write":"data.child('userUid').val() === auth.uid",
-			  "qtd_estoque":{
-					  ".validate":"newData.isNumber()"
-			},
-			"descricao":{
-				  ".validate":"newData.isString() && newData.val().length<250"
-			},
-			"nome":{
-			  ".validate":"newData.isString()"
-			},
-			"preco":{
-			  ".validate":"newData.isNumber() && newData.val()>0"
+		".read": "now < 1680836400000", // 2023-4-7
+		// ".write": "now < 1680836400000",  // 2023-4-7
+		"produtos": {
+			".indexOn": ["preco", "nome"],
+			"$idProd": {
+				//O produto so pode ser alterado pelo usuario que cadastrou o mesmo
+			 	//ou seja, o campo userUid em produto deve ser iqual ao auth.uid
+				".write": "newData.child('userUid').val() === auth.uid",
+				"qtd_estoque": {
+					".validate": "newData.isNumber()"
+				},
+				"descricao": {
+					".validate": "newData.isString() && newData.val().length<250"
+				},
+				"nome": {
+					".validate": "newData.isString()"
+				},
+				"preco": {
+					".validate": "newData.isNumber() && newData.val()>0"
+				},
+				"userUid": {//Permite apenas criar um novo campo userUid quando este não existe
+							//Não permite alterar o campo userUid existente
+					".validate": "!data.exists()||data.val()===auth.uid"
+				}
 			}
-			  }
-	  },
-	  "users":{
-		  "$uid":{
+		},
+		"users": {
+			"$uid": {
 				".write": "$uid===auth.uid",
 				".read": "$uid===auth.uid"
-		  }
-	  }
+			}
+		}
 	}
+}
