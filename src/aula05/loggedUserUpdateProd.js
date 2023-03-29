@@ -24,7 +24,7 @@ try {
 	const credentials = await signInWithEmailAndPassword(
         auth, user1.email, user1.password)
 	
-	const newProd = {nome: 'UPDATED'}
+	const newProd = {nome: 'UPDATED',userUid:credentials.user.uid}
     //Deve gerar erro segunda as regras de rules/rule_permission
     //user1 não deve alterar o produto com userId do user2
     //alterar para user1.prodId
