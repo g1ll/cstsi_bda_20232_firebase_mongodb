@@ -31,11 +31,11 @@ Para rodar qualquer script de exemplo, rode o seguinte comando:
 ```
 Por exemplo, para rodar o script da aula 5 sobre autenticação no Firebase:
 
-bash
-```shell
+Bash:
+```bash
 	node src/aula05/auth/signIn.js
 ```
-powershell
-```shell
+Powershell:
+```powershell
 	node .\src\aula05\auth\signIn.js
 ```
