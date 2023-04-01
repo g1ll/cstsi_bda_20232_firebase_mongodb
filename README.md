@@ -24,18 +24,14 @@ Execute o ***npm i***.
 
 Para executar os exemplos deste repositório, principalmente as aulas 04 e 05 que necessitam ler variáveis de ambiente, crie um arquivo .env e configure as volores das variáveis, conforme o arquivo de exemplo [.env.example](.env.example).
 
-
-### Linux
-Antes de executar os scripts com o nodejs, carrega as variáveis de ambiente no seu terminal com o seguinte comando:
-
-```shell
-	source .env
-```
-
 Para rodar qualquer script de exemplo, rode o seguinte comando:
 
 ```shell
-	node script.js
+	node path/to/script.js
 ```
-Observe o diretório de execução.
+Por exemplo, para rodar o script da aula 5 sobre autenticação no Firebase:
+
+```shell
+	node src/aula05/auth/signIn.js
+```
 
