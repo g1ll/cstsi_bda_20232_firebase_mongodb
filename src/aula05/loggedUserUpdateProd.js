@@ -33,9 +33,9 @@ try {
 	
 	const newProd = {nome: 'UPDATE',userUid:credentials.user.uid}
 	// const newProd = {nome: 'UPDATED'}
-    //Deve gerar erro segunda as regras de rules/rule_permission
-    //user1 não deve alterar o produto com userId do user2
-    //alterar para user1.prodId
+    //Deve gerar erro segundo as regras de rules/rule_permission.json
+    //user1 não deve alterar o produto com userId do user2 ou user3.
+    //Para funcionar alterar o objeto user do update para user1.prodId
     console.log(credentials.user.uid)
 	await update(ref(db,'produtos/'+user3.prodId),newProd);
 	console.log(newProd);
