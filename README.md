@@ -4,6 +4,8 @@
 
 Para executar os exemplos deste repositório, principalmente as aulas 04 e 05 que necessitam ler variáveis de ambiente, crie um arquivo .env e configure as volores das variáveis, conforme o arquivo de exemplo [.env.example](.env.example).
 
+
+### Linux
 Antes de executar os scripts com o nodejs, carrega as variáveis de ambiente no seu terminal com o seguinte comando:
 
 ```shell
