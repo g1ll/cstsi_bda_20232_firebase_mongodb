@@ -22,7 +22,7 @@ Execute o ***npm i***.
 
 ## Exemplos práticos da disciplina de Banco de Dados Avançado
 
-Para executar os exemplos deste repositório, principalmente as aulas 04 e 05 que necessitam ler variáveis de ambiente, crie um arquivo .env e configure as volores das variáveis, conforme o arquivo de exemplo [.env.example](.env.example).
+Para executar os exemplos deste repositório, principalmente as aulas 04 e 05 que necessitam ler variáveis de ambiente, crie um arquivo .env e configure as valores das variáveis, conforme o arquivo de exemplo [.env.example](.env.example).
 
 Para rodar qualquer script de exemplo, rode o seguinte comando:
 
