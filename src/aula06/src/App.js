@@ -21,6 +21,7 @@ function App() {
   }, []);
 
   const getTodos = () => {
+    setTodos([])
     getDocs(collectionRef)
       .then(querySnap => {
         //console.log(querySnap.docs.map(d=>d.data().todo))
