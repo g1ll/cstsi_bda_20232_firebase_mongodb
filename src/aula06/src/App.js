@@ -14,6 +14,7 @@ function App() {
   useEffect(() => {
     getDocs(collectionRef)
       .then(querySnap => {
+        //console.log(querySnap.docs.map(d=>d.data().todo))
         const docs = querySnap.docs
         if (!docs.length)
           throw Error("Empty data!")
