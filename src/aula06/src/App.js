@@ -11,6 +11,7 @@ function App() {
   ])
   const [input, setInput] = useState('')
 
+
   const addTodo = e => {
     e.preventDefault()
     setTodos([...todos, input])
@@ -39,7 +40,7 @@ function App() {
       <ul style={{ listStyle: "none" }}>
         {todos.map((todo, index) =>{
             return (<li key={`todo_${index}`}>
-                      {todo}
+                      {`${index}:${todo}`}
                       <Button onClick={e => delTodo(index)} color="error" >
                           <Icon>delete_forever</Icon>
                       </Button>
