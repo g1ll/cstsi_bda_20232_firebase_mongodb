@@ -1,15 +1,32 @@
 import { Button, FormControl, Input, InputLabel, Icon } from '@mui/material'
-import { useState } from 'react';
-
+import { useEffect, useState } from 'react';
+import { collection, getDocs } from "firebase/firestore";
+import { db } from './firebase.js';
 import './App.css';
 
 function App() {
-
-  const [todos, setTodos] = useState([
-    'Understanding Firestore Database!',
-    'Create the first app with collections and documents.'
-  ])
+  const [todos, setTodos] = useState([])
   const [input, setInput] = useState('')
+
+  const [isLoaded, setLoaded] = useState(false)
+  const collectionRef = collection(db, "todos");
+
+  useEffect(() => {
+    getDocs(collectionRef)
+      .then(querySnap => {
+        const docs = querySnap.docs
+        if (!docs.length)
+          throw Error("Empty data!")
+        
+        const todos = docs.map(
+              doc => doc.data().todo
+            )
+        setTodos(todos)
+        setLoaded(true)
+      }).catch(e =>
+        console.error(e.message)
+      );
+  }, [input])
 
 
   const addTodo = e => {
@@ -29,7 +46,7 @@ function App() {
       <form>
         <FormControl>
           <InputLabel>Write a TODO</InputLabel>
-          <Input value={input} onChange={e => 
+          <Input value={input} onChange={e =>
             setInput(e.target.value)} />
         </FormControl>
         <Button
@@ -37,17 +54,21 @@ function App() {
           color="primary" disabled={!input}>Add Todo
         </Button>
       </form>
-      <ul style={{ listStyle: "none" }}>
-        {todos.map((todo, index) =>{
+      {isLoaded ?
+        <ul style={{ listStyle: "none" }}>
+          {todos.map((todo, index) => {
             return (<li key={`todo_${index}`}>
-                      {`${index}:${todo}`}
-                      <Button onClick={e => delTodo(index)} color="error" >
-                          <Icon>delete_forever</Icon>
-                      </Button>
-                  </li>
-            )}
-        )}
-      </ul>
+              {todo}
+              <Button onClick={e => delTodo(index)} color="error" >
+                <Icon>delete_forever</Icon>
+              </Button>
+            </li>
+            )
+          }
+          )}
+        </ul>
+        : <p>Loading from Firestore...</p>
+      }
     </div>
   );
 }
