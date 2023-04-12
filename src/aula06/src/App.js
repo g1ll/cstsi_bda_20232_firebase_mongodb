@@ -42,6 +42,7 @@ function App() {
     e.preventDefault()
     const docRef = await addDoc(collectionRef, { todo: input })
     console.log(docRef.id)
+    getTodos()
     setInput('')
   }
 
