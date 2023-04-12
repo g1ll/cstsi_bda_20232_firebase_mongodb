@@ -1,6 +1,6 @@
 import { Button, FormControl, Input, InputLabel, Icon } from '@mui/material'
 import { useEffect, useState } from 'react';
-import { collection, getDocs } from "firebase/firestore";
+import { addDoc, collection, getDocs } from "firebase/firestore";
 import { db } from './firebase.js';
 import './App.css';
 
@@ -30,9 +30,10 @@ function App() {
   }, [input])
 
 
-  const addTodo = e => {
+  const addTodo = async e => {
     e.preventDefault()
-    setTodos([...todos, input])
+    const docRef = await addDoc(collectionRef,{todo:input})
+    console.log(docRef.id)
     setInput('')
   }
 
