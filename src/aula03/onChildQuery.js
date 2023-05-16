@@ -18,16 +18,11 @@ let listUsers = []
 //objetos com  os seguintes campos {idade:number, nome:string}
 let start = 0
 let end = 60
-let consultaRestrita = query(
+let consulta = query(
 	userRef,
 	orderByChild('idade'),
 	startAt(start),
 	endAt(end)
-);
-
-let consultaGeral = query(
-	userRef,
-	orderByChild('idade'),
 );
 
 const updateList = (item) => {
@@ -48,32 +43,27 @@ const renderList = () => {
 	console.table(listUsers)
 }
 
-//ordena por idade
 const sortList = () => listUsers.sort(
 	(a, b) => a.data.idade > b.data.idade ? 1
 		: (a.data.idade < b.data.idade) ? -1 : 0
 )
 
-onChildAdded(consultaRestrita, (snapshot) => {
+onChildAdded(consulta, (snapshot) => {
+	console.log('added')
 	if (!snapshot.exists())
 		return console.log("Nó não encontrado")
-	listUsers.push({ id: snapshot.key, data: snapshot.val() })
-	sortList()
-	renderList()
+	updateList({ id: snapshot.key, data: snapshot.val() })
 })
 
-onChildChanged(consultaGeral, (snapshot) => {
+onChildChanged(consulta, (snapshot) => {
+	console.log('changed')
 	if (!snapshot.exists())
 		return console.log("Nó não encontrado")
-
-	console.log(snapshot.val())
-
-	let idade = snapshot.val()?.idade
-	if (idade && idade >= start && idade < end)
-		updateList({ id: snapshot.key, data: snapshot.val() })
+	updateList({ id: snapshot.key, data: snapshot.val() })
 });
 
-onChildRemoved(consultaRestrita, (snapshot) => {
+onChildRemoved(consulta, (snapshot) => {
+	console.log('removed')
 	if (!snapshot.exists())
 		return console.log("Nó não encontrado")
 	deleteList({ id: snapshot.key, data: snapshot.val() })
