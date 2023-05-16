@@ -1,4 +1,4 @@
-import db from "../libs/firebase/rtdb_conection.js"
+import db from "../libs/firebase/rtdb_connection.js"
 
 // import {getDatabase, get, ref, child, onValue, onChildAdded} from "firebase/database"
 import * as fb from "firebase/database"
@@ -7,14 +7,14 @@ let total; //usado para os exemplos com todos os filtros
 total = 3; //usado para os filtros limitToFirst e limitToLast, comentar para os demais
 const value = 6350;
 const filtro = 'preco';
-const produtos = [];
+const produtos = [];      
 
 const refDB = fb.ref(db, 'produtos/');
 //Descomente cada filtro por vez para testar
 // const consulta = fb.query(refDB, fb.orderByChild(filtro), fb.limitToFirst(total))
 // const consulta = fb.query(refDB,fb.orderByChild(filtro),fb.limitToLast(total))
 // const consulta = fb.query(refDB, fb.orderByChild(filtro), fb.startAt(value))
-// const consulta = fb.query(refDB,fb.orderByChild(filtro),fb.startAfter(value))
+const consulta = fb.query(refDB,fb.orderByChild(filtro),fb.startAfter(value))
 // const consulta = fb.query(refDB,fb.orderByChild(filtro),fb.endAt(value))
 // const consulta = fb.query(refDB,fb.orderByChild(filtro),fb.endBefore(value))
 // const consulta = fb.query(refDB,fb.orderByChild(filtro),fb.equalTo(value))
@@ -33,7 +33,7 @@ const refDB = fb.ref(db, 'produtos/');
 //         fb.endAt('H')
 //     ) // != like "GPU%"
 
-const consulta = fb.query(refDB,fb.orderByChild('preco'));
+// const consulta = fb.query(refDB,fb.orderByChild('preco'));
 
 
 //Total de resultados da consulta

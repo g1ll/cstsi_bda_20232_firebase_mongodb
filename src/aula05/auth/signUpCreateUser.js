@@ -1,4 +1,4 @@
-import db from '../../libs/firebase/rtdb_conection.js'
+import db from '../../libs/firebase/rtdb_connection.js'
 import {
     createUserWithEmailAndPassword,
     deleteUser,
@@ -19,7 +19,8 @@ const auth = getAuth();
 
 const user = {
     email: 'gillvelleda@gmail.com',
-    password: 'qwerty'
+    password: 'qwerty',
+    name: 'Gill'
 }
 
 let credentials;
@@ -35,7 +36,7 @@ try {
 
     console.log(auth.currentUser)
     await set(ref(db,'users/'+credentials.user.uid),{
-        email:user.email
+        email:user.email, name:user.name
     })
     console.log("Usuario criado verifique seu email!!!")
 
