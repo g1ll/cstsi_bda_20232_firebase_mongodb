@@ -28,19 +28,20 @@ const readTodos = async () => {
 	if (!docs.length)
 		throw Error("Empty data!")
 
-	let todos = await Promise.all(
-		docs.map(async doc => {
-			const todo = ({
-				id: doc.id,
-				...doc.data()
-			})
-
-			todo.details && formatDetailsDate(todo.details)
-			todo.collabs && await getCollabsEmail(todo.collabs)
-
-			return todo;
+	const todosPromises = docs.map(async doc => {
+		const todo = ({
+			id: doc.id,
+			...doc.data()
 		})
-	)
+
+		todo.details && formatDetailsDate(todo.details)
+		todo.collabs && await getCollabsEmail(todo.collabs)
+
+		return todo;
+	})
+
+	let todos = await Promise.all(todosPromises)
+
 	todos = await Promise.all(await loadSteps(todos))
 	todos = await Promise.all(await loadOwners(todos))
 	return todos;
@@ -83,7 +84,7 @@ const loadSteps = async (todos) => {
 		const stepRef = collection(db, `todos/${todo.id}/steps`)
 		const stepQuery = query(stepRef, orderBy('order', 'asc'))
 		const snapSteps = await getDocs(stepQuery)
-		console.log(snapSteps.empty)
+		
 		if (snapSteps.empty)
 			return todo;
 
@@ -95,10 +96,11 @@ const loadSteps = async (todos) => {
 }
 
 const updateTodo = async ({ id, text }) => {
-	await updateDoc(doc(db, todosCollectionRef, id), { text: text })
+	await updateDoc(doc(db,"todos", id), { text: text })
 }
 
-const deleteTodo = async ({ todoId }) => {
+const deleteTodo = async (todoId) => {
+	console.log(todoId)
 	await deleteDoc(doc(db, 'todos', todoId));
 }
 
