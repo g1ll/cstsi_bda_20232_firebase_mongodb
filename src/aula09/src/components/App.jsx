@@ -46,7 +46,8 @@ function App() {
 
   const updTodo = async e => {
     e.preventDefault()
-    await updateTodo(todo.id,text)
+    let id = todo.id
+    await updateTodo({id,text})
 
     setTodo({})
     setText('')
