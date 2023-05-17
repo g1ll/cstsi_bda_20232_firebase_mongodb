@@ -17,8 +17,10 @@ import firebaseConfig from "./config"
 const db = getFirestore(initializeApp(firebaseConfig));
 const todosCollectionRef = collection(db, "todos");
 
-const createTodo = async ({ text }) => {
-	await addDoc(todosCollectionRef, { text: text })
+const createTodo = async ({ text, image  }) => {
+	let todo = {text:text}
+	if(image) todo.image = image;
+	await addDoc(todosCollectionRef,todo)
 }
 
 const readTodos = async () => {
