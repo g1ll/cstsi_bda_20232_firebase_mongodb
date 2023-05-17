@@ -1,12 +1,29 @@
-import { Button, FormControl, Input, InputLabel } from '@mui/material'
 import { useEffect, useState } from 'react';
-import { TodoList } from './TodoList.jsx';
 import '../assets/styles/App.css'
-import { 
-  createTodo, 
-  readTodos, 
+import {
+  createTodo,
+  readTodos,
   updateTodo,
-  deleteTodo } from '../firebase/TodoModel.js';
+  deleteTodo
+} from '../firebase/TodoModel.js';
+
+import TodoForm from './TodoForm.jsx';
+import { TodoList } from './TodoList.jsx';
+
+
+import { initializeApp } from 'firebase/app'
+
+import {
+  ref,
+  getStorage,
+  getDownloadURL,
+  uploadBytesResumable
+}
+  from "firebase/storage";
+import firebaseConfig from '../firebase/config'
+
+const firebaseApp = initializeApp(firebaseConfig)
+const storage = getStorage(firebaseApp);
 
 function App() {
   console.log("Render!!")
@@ -18,25 +35,33 @@ function App() {
 
   const [isLoaded, setLoaded] = useState(false)
 
-  useEffect(() =>listTodo(), []);
+  const [progresspercent, setProgresspercent] = useState(0);
 
-  const listTodo = ()=>{
+  useEffect(() => listTodo(), []);
+
+  const listTodo = () => {
     readTodos()
-      .then(todosPending=>{
+      .then(todosPending => {
         Promise.all(todosPending)
-          .then(todos=>{
+          .then(todos => {
             setTodos(todos)
             setLoaded(true)
-        })
+          })
       })
-      .catch(e=>console.error(`Erro ao carregar todos! ${e.message}`))
+      .catch(e => console.error(`Erro ao carregar todos! ${e.message}`))
   }
 
   const addTodo = async e => {
     e.preventDefault()
-    await createTodo({ text: text })
-    listTodo()
-    setText('')
+    const file = e.target[1]?.files[0];
+
+    if (!file){
+      await createTodo({ text: text })
+      listTodo()
+      setText('')
+      return;
+    }
+    submitImage(file)
   }
 
   const delTodo = async todoId => {
@@ -47,7 +72,7 @@ function App() {
   const updTodo = async e => {
     e.preventDefault()
     let id = todo.id
-    await updateTodo({id,text})
+    await updateTodo({ id, text })
 
     setTodo({})
     setText('')
@@ -62,23 +87,44 @@ function App() {
     setEditMode(true)
   }
 
+  const submitImage = (file) => {
+    const storageRef = ref(storage, `files/${file.name}`);
+    const uploadTask = uploadBytesResumable(storageRef, file);
+
+    uploadTask.on("state_changed",
+      (snapshot) => {//PROGRESS
+        const progress =
+          Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+        setProgresspercent(progress)
+        console.log(progresspercent)
+      },//ERROR
+      (error) => {
+        alert(error);
+      },//COMPLETE
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref)
+          .then(async (downloadURL) => {
+            const todo = {
+              image: downloadURL,
+              text: text
+            }
+            await createTodo(todo);
+            listTodo()
+            setText('')
+          });
+      }
+    );
+  }
+
+
   return (
     <div className="App">
-      <form>
-        <FormControl>
-          <InputLabel>Write a TODO</InputLabel>
-          <Input value={text} onChange={e =>
-            setText(e.target.value)} />
-        </FormControl>
-        <Button
-          type="submit" onClick={!editMode ? addTodo : updTodo}
-          variant="contained"
-          color={editMode ? "primary" : "success"}
-          disabled={!text}>
-          {!editMode ? "Add" : "Edit"}
-          &nbsp;Todo
-        </Button>
-      </form>
+      <TodoForm
+        input={text}
+        setInput={setText}
+        editMode={editMode}
+        addTodo={addTodo}
+        updTodo={updTodo} />
       {isLoaded ?
         <TodoList todos={todos} editTodo={editTodo} delTodo={delTodo} />
         : <p>Loading from Firestore...</p>
