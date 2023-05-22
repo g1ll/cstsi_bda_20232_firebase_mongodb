@@ -68,3 +68,5 @@ onChildRemoved(consulta, (snapshot) => {
 		return console.log("Nó não encontrado")
 	deleteList({ id: snapshot.key, data: snapshot.val() })
 });
+
+setTimeout(renderList, 1000);
