@@ -1,6 +1,6 @@
 {
   "type":"module",
-  "name": "aula10",
+  "name": "aula11",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -10,6 +10,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "mongodb": "^4.8.1"
+    "mongodb":  "^5.5.0"
   }
 }
