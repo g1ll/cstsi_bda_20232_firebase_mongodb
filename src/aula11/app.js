@@ -16,11 +16,11 @@ try {
     const dbName = 'loja'
     //consulta simples
     //SELECT * FROM produtos
-    const resultados = await client.db(dbName)
-                .collection('produtos')
-                .find().toArray()
+    // const resultados = await client.db(dbName)
+    //             .collection('produtos')
+    //             .find().toArray()
 
-    //consulta com projeção
+    //consulta com projeção 
     // const resultados = await client.db(dbName)
     // .collection('produtos')
     // .find({},
@@ -41,7 +41,13 @@ try {
     //             projection: {
     //                 _id: 0,
     //                 qtd_estoque: 0,
-    //                 descricao: 0
+    //                 descricao: 0,
+                    // desconto:0,
+                    // qtdEstoque:0,
+                    // price:0
+    //             },
+    //             sort:{
+    //                 preco:-1
     //             }
     //         }).toArray()
     // resultados.map((produto,index)=>console.log(`${index} | ${produto.id_prod} | ${produto.nome} | ${produto.preco} | ${produto.importado}`))
@@ -100,13 +106,13 @@ try {
     // }
 
     //OPERADORES LÓGICOS
-    //AND
-    // const filtro = {
-    //         $and:[ // V e V -> V; V e F -> F; F e F -> F;
-    //             {preco:{$gte:3000}},
-    //             {preco:{$lte:9000}}
-    //         ]
-    //     }
+    // AND
+    const filtro = {
+            $and:[ // V e V -> V; V e F -> F; F e F -> F;
+                {preco:{$gte:3000}},
+                {preco:{$lte:9000}}
+            ]
+        }
 
     //NOT
     // const filtro = {
@@ -144,14 +150,18 @@ try {
     //         ]
     //     }
 
-    // const opcoes = { 
-    //     sort: { preco: 1 },
-    //     projection: { _id: 0, descricao: 0 }
-    //  }
+    const opcoes = { 
+        sort: { preco: 1 },
+        projection: { _id: 0,
+                     descricao: 0,
+                     desconto:0,
+                     qtdEstoque:0,
+                     price:0 }
+     }
 
-    // const collection = client.db(dbName)
-    //     .collection('produtos')
-    // const resultados = await collection.find(filtro, opcoes).toArray()
+    const collection = client.db(dbName)
+        .collection('produtos')
+    const resultados = await collection.find(filtro, opcoes).toArray()
      
     console.table(resultados)
 

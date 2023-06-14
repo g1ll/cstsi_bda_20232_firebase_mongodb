@@ -14,7 +14,7 @@ try {
     
     //Exemplo de uso da sensibilidade quanto á maiusculo ou minísculo
     //Retornará apenas os produtos com a palavra Samsumg escrita exatamente igual ao termo
-    // const termo = "SAMSUMG"
+    // const termo = "Samsumg"
     // let filtro = {
     //     $text: {
     //         $search: termo,
@@ -45,12 +45,13 @@ try {
     // }
 
     // //Exemplo busca por frases, índice descricao
-    // const termo = "\"8K 5G 60\""
-    // let filtro = {
-    //     $text: {
-    //         $search: termo,
-    //     }
-    // }
+    // const termo = "smart"
+    // const termo = "\"SmartTV SAMSUMG\""
+    let filtro = {
+        $text: {
+            $search: termo,
+        }
+    }
 
     // filtro = {}
     // const opcoes = { 
@@ -60,10 +61,11 @@ try {
 
      const opcoes = { 
         sort: { nome: 1 },
-        projection: { _id: 0, descricao:0 }
+        projection: { _id: 0, nome:0 }
      }
 
-    const collection = client.db('loja').collection('produtos')
+    const collection = client.db('loja')
+        .collection('produtos')
     const resultados = await collection.find(filtro, opcoes).toArray()
     console.table(resultados)
 

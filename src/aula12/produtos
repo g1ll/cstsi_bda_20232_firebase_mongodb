@@ -1,0 +1,389 @@
+[{
+  "_id": {
+    "$oid": "623926c734546f2478aea6c9"
+  },
+  "descricao": "Samsung A5 2017 2GB Exynos 8Core",
+  "id_prod": 111,
+  "nome": "Samsumg A5 - 2019",
+  "qtdEstoque": 100,
+  "price": 7150.000000000001
+},{
+  "_id": {
+    "$oid": "623926c734546f2478aea6ca"
+  },
+  "descricao": "I5 7600HQ 8GBMen GTX1030m SSD 1TB",
+  "id_prod": 112,
+  "importado": false,
+  "nome": "Notebook DELL Inspiron 15",
+  "preco": 8500,
+  "qtd_estoque": 300
+},{
+  "_id": {
+    "$oid": "623926c734546f2478aea6cb"
+  },
+  "descricao": "I7 10800HQ 16GB MEM NVIDIA-RTX2060m SSD 2TB",
+  "id_prod": 113,
+  "importado": false,
+  "nome": "Notebook Samsumg Gamer",
+  "preco": 17500,
+  "qtd_estoque": 150
+},{
+  "_id": {
+    "$oid": "623926c734546f2478aea6cc"
+  },
+  "descricao": "SSD SAMSUNG EVO 860 4TB",
+  "id_prod": 114,
+  "importado": false,
+  "nome": "SSD 4TB",
+  "preco": 6350,
+  "qtd_estoque": 200
+},{
+  "_id": {
+    "$oid": "623926c734546f2478aea6cd"
+  },
+  "descricao": "SSD SAMSUNG EVO 860 2TB",
+  "id_prod": 115,
+  "importado": false,
+  "nome": "SSD 2TB",
+  "preco": 810,
+  "qtd_estoque": 150
+},{
+  "_id": {
+    "$oid": "623926c734546f2478aea6ce"
+  },
+  "descricao": "SSD WESTERN DIGITAL",
+  "id_prod": 121,
+  "importado": false,
+  "nome": "SSD 4TB",
+  "preco": 810,
+  "qtd_estoque": 20
+},{
+  "_id": {
+    "$oid": "623926c734546f2478aea6d2"
+  },
+  "descricao": "LED 35\" 3440x1440 Preto 1 HDMI(v1.4)",
+  "id_prod": 125,
+  "importado": false,
+  "nome": "Monitor Asus BK 35''",
+  "preco": 9990,
+  "qtd_estoque": 500
+},{
+  "_id": {
+    "$oid": "623947a46f6928879faddc35"
+  },
+  "id_prod": 130,
+  "nome": "TV LG 5G 8K",
+  "descricao": "SmartTV LG 8K Model LG20228k5g",
+  "importado": true,
+  "preco": 14450,
+  "qtd_estoque": 300
+},{
+  "_id": {
+    "$oid": "6239d9fde0076f2e5e3fe9d5"
+  },
+  "id_prod": 133,
+  "nome": "SmartTV LG 8K 5G 60\"",
+  "descricao": "SmartTV LG model LG6020228K5G",
+  "importado": true,
+  "preco": 20500,
+  "qtd_estoque": 150
+},{
+  "_id": {
+    "$oid": "6239dc7d5301c272d03f6a41"
+  },
+  "id_prod": 134,
+  "nome": "SmartTV LG 8K 5G 70\"",
+  "descricao": "SmartTV LG model LG7020228K5G",
+  "importado": true,
+  "preco": 23500,
+  "qtd_estoque": 150
+},{
+  "_id": {
+    "$oid": "6239dc7d5301c272d03f6a42"
+  },
+  "id_prod": 135,
+  "nome": "SmartTV SAMSUMG 8K 5G 45\"",
+  "descricao": "SmartTV SAMSUMG model SM4520228K5G",
+  "importado": true,
+  "preco": 12500,
+  "qtd_estoque": 150
+},{
+  "_id": {
+    "$oid": "623a3586072d368d8f874936"
+  },
+  "id_prod": 136,
+  "nome": " AMD Radeon RX 6600 ",
+  "descricao": "XFX Speedster SWFT 210 AMD Core Gaming, 8GB GDDR6,RDNA 2 ",
+  "importado": true,
+  "preco": 810,
+  "qtd_estoque": 150
+},{
+  "_id": {
+    "$oid": "623a3586072d368d8f874937"
+  },
+  "id_prod": 137,
+  "nome": "Smartphone Motorola Moto Edge 30 Pro,",
+  "descricao": "Moto Edge 5G, 12GB RAM, 256GB, Câmera Tripla 50MP, Tela Max Vision 6.7, Branco",
+  "importado": true,
+  "preco": 5800,
+  "qtd_estoque": 150
+},{
+  "_id": {
+    "$oid": "624357f43fe65a22e6673d6f"
+  },
+  "id_prod": 138,
+  "nome": "Cadeira Gamer Husky Gaming Hailstorm",
+  "descricao": "Cadeira Gamer Husky Gaming Hailstorm, Preto e Azul, Com Almofadas, Reclinável, Descanso de Braço 2D - HHA-BB",
+  "qtd_estoque": 100,
+  "preco": 810,
+  "importado": false,
+  "desconto": 20
+},{
+  "_id": {
+    "$oid": "62435bdc2ae9039fed78de08"
+  },
+  "id_prod": 139,
+  "nome": "Cadeira Gamer Husky Gaming Hailstorm Blue",
+  "descricao": "Cadeira Gamer Husky Gaming Hailstorm, Preto e Azul, Com Almofadas, Reclinavel, Descanso de Braco 2D - HHA-BB",
+  "qtd_estoque": 250,
+  "preco": 810,
+  "importado": true,
+  "desconto": 35
+},{
+  "_id": {
+    "$oid": "630faba72d47770fd8d827cd"
+  },
+  "id_prod": 200,
+  "nome": "Teste RapidAPI",
+  "descricao": "RapidAPI client http teste",
+  "qtd_estoque": 100,
+  "preco": 810,
+  "importado": false,
+  "desconto": null
+},{
+  "_id": {
+    "$oid": "630facc532062c7dbea486c4"
+  },
+  "id_prod": 201,
+  "nome": "Teste RapidAPI Atualizado",
+  "descricao": "RapidAPI client http teste",
+  "qtd_estoque": 200,
+  "preco": 810,
+  "importado": true,
+  "desconto": 0.5
+},{
+  "_id": {
+    "$oid": "63bc6eab483eaa7c3bf286d5"
+  },
+  "id_prod": 150,
+  "nome": "SSD 10TB",
+  "descricao": "WESTER DIGITAL TURBO",
+  "qtd_estoque": 50,
+  "preco": 4500,
+  "importado": true,
+  "desconto": 0.06
+},{
+  "_id": {
+    "$oid": "63bc7358d3f6d9573170cef2"
+  },
+  "id_prod": 151,
+  "nome": "SSD 20TB",
+  "descricao": "WESTER DIGITAL TURBO",
+  "qtd_estoque": 50,
+  "preco": 10500,
+  "importado": true,
+  "desconto": 0.06
+},{
+  "_id": {
+    "$oid": "63c58af77b34e43b9f7bf4d8"
+  },
+  "id_prod": 406053,
+  "nome": "Placa de Vídeo RTX 4070",
+  "descricao": "Placa de Vídeo RTX 4070 Ti Trinity OC ZOTAC Gaming NVIDIA Geforce, 12GB GDDR6X, DLSS 3, Ray Tracing - ZT-D40710J-10P",
+  "qtd_estoque": 5,
+  "importado": false,
+  "preco": 7099.99
+},{
+  "_id": {
+    "$oid": "63c58c9dae2340992799c19b"
+  },
+  "id_prod": 139,
+  "nome": "Cadeira Gamer Husky Gaming Hailstorm Blue",
+  "descricao": "Cadeira Gamer Husky Gaming Hailstorm, Preto e Azul, Com Almofadas, Reclinável, Descanso de Braço 2D - HHA-BB",
+  "qtd_estoque": 250,
+  "preco": 1249.9,
+  "importado": false,
+  "desconto": 20
+},{
+  "_id": {
+    "$oid": "63c58c9dae2340992799c19c"
+  },
+  "id_prod": 140,
+  "nome": "Cadeira Gamer Husky Gaming Hailstorm 900",
+  "descricao": " Preto e Vermelho, Com Almofadas, Reclinável com Sistema Frog, Descanso de Braço 3D - HGMA085",
+  "qtd_estoque": 130,
+  "preco": 1449.9,
+  "importado": false,
+  "desconto": 5
+},{
+  "_id": {
+    "$oid": "63c58c9dae2340992799c19d"
+  },
+  "id_prod": 141,
+  "nome": "Jogo Ghostwire: Tokyo, PS5",
+  "descricao": "Aproveite essa oportunidade e adquira seu Jogo Ghostwire: Tokyo, PS5 com Ray tracing e áudio 3D.",
+  "qtd_estoque": 210,
+  "preco": 264,
+  "importado": true,
+  "desconto": 15
+},{
+  "_id": {
+    "$oid": "63c58c9dae2340992799c19e"
+  },
+  "id_prod": 141,
+  "nome": "Computador All In One Positivo Master A1120",
+  "descricao": "Computador All In One Positivo Master A1120, Intel Celeron N 4000, 4GB, 500GB, 21.5´ Full HD, Windows 10 Home - 1702399",
+  "qtd_estoque": 110,
+  "preco": 2599.9,
+  "importado": false,
+  "desconto": 10
+},{
+  "_id": {
+    "$oid": "63c58c9dae2340992799c19f"
+  },
+  "id_prod": 142,
+  "nome": "Smartphone Asus Zenfone 8 5G",
+  "descricao": "Smartphone Asus Zenfone 8 5G ZS590KS-2A077BR, 8GB RAM, 128GB, Câmera Dupla 64MP, Tela 5.92, Preto - 90AI0061-M00830",
+  "qtd_estoque": 410,
+  "preco": 3799.9,
+  "importado": true,
+  "desconto": 12
+},{
+  "_id": {
+    "$oid": "6480b50120465e2989632344"
+  },
+  "id_prod": 157,
+  "nome": "Novo Produto Teste TRES",
+  "descricao": "Testando inserção de novo produto"
+},{
+  "_id": {
+    "$oid": "6480b58063d088d2a9a77820"
+  },
+  "id_prod": 558,
+  "nome": "Novo Produto Teste quatro",
+  "descricao": "Testando inserção de novo produto"
+},{
+  "_id": {
+    "$oid": "6480b58063d088d2a9a77821"
+  },
+  "id_prod": 559,
+  "nome": "Novo Produto Teste quinto",
+  "descricao": "Testando inserção de novo produto"
+},{
+  "_id": {
+    "$oid": "6480b58063d088d2a9a77822"
+  },
+  "id_prod": 560,
+  "nome": "Novo Produto Teste sexto",
+  "descricao": "Testando inserção de novo produto"
+},{
+  "_id": {
+    "$oid": "6480b672eaa328b8915a5c4f"
+  },
+  "descricao": "Samsung A5 2017 2GB Exynos 8Core",
+  "id_prod": 111,
+  "importado": 0,
+  "nome": "Samsumg A5 - 2017",
+  "preco": 4500,
+  "qtd_estoque": 2
+},{
+  "_id": {
+    "$oid": "6480b672eaa328b8915a5c50"
+  },
+  "descricao": "I5 7600HQ 8GBMen GTX1030m SSD 1TB",
+  "id_prod": 112,
+  "importado": 0,
+  "nome": "Notebook DELL Inspiron 15",
+  "preco": 8500,
+  "qtd_estoque": 300
+},{
+  "_id": {
+    "$oid": "6480b672eaa328b8915a5c51"
+  },
+  "descricao": "I7 10800HQ 16GB MEM NVIDIA-RTX2060m SSD 2TB",
+  "id_prod": 113,
+  "importado": 0,
+  "nome": "Notebook Samsumg Gamer",
+  "preco": 17500,
+  "qtd_estoque": 150
+},{
+  "_id": {
+    "$oid": "6480b672eaa328b8915a5c52"
+  },
+  "descricao": "SSD SAMSUNG EVO 860 4TB",
+  "id_prod": 114,
+  "importado": 0,
+  "nome": "SSD 4TB",
+  "preco": 6350,
+  "qtd_estoque": 200
+},{
+  "_id": {
+    "$oid": "6480b672eaa328b8915a5c53"
+  },
+  "descricao": "SSD SAMSUNG EVO 860 2TB",
+  "id_prod": 115,
+  "importado": 0,
+  "nome": "SSD 2TB",
+  "preco": 3750,
+  "qtd_estoque": 150
+},{
+  "_id": {
+    "$oid": "6480b672eaa328b8915a5c54"
+  },
+  "descricao": "SSD WESTERN DIGITAL",
+  "id_prod": 121,
+  "importado": 0,
+  "nome": "SSD 4TB",
+  "preco": 4150,
+  "qtd_estoque": 20
+},{
+  "_id": {
+    "$oid": "6480b672eaa328b8915a5c55"
+  },
+  "descricao": "GPU NVIDIA 12GB MEM GDDR6 256BITS GAINWARD PHOENIX ",
+  "id_prod": 122,
+  "importado": 0,
+  "nome": "GAINWARD PHOENIX RTX3080ti",
+  "preco": 14150,
+  "qtd_estoque": 30
+},{
+  "_id": {
+    "$oid": "6480b672eaa328b8915a5c56"
+  },
+  "descricao": "GPU NVIDIA 8GB MEM GDDR6 256BITS GAINWARD PHOENIX ",
+  "id_prod": 123,
+  "importado": 0,
+  "nome": "GAINWARD PHOENIX RTX3070",
+  "preco": 7399,
+  "qtd_estoque": 60
+},{
+  "_id": {
+    "$oid": "6480b672eaa328b8915a5c57"
+  },
+  "descricao": "AMAZON ALEX ECHO DOT 3 GEN SMART SPEAKER",
+  "id_prod": 124,
+  "importado": 0,
+  "nome": "ECHO DOT ALEXA",
+  "preco": 200,
+  "qtd_estoque": 1000
+},{
+  "_id": {
+    "$oid": "6480b672eaa328b8915a5c58"
+  },
+  "descricao": "LED 35\" 3440x1440 Preto 1 HDMI(v1.4)",
+  "id_prod": 125,
+  "importado": 0,
+  "nome": "Monitor Asus BK 35''",
+  "preco": 9990,
+  "qtd_estoque": 500
+}]
