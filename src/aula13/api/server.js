@@ -12,3 +12,9 @@ const corsOptions = {
 app.get('/', (req, res) => {
   res.send({ express: `Servidor Express Iniciado na porta ${port}!` });
 });
+
+console.log('Servidor inicializado !')
+
+app.listen(port,() => {
+  console.log(`Servidor rodando na porta ${port}`);
+});
