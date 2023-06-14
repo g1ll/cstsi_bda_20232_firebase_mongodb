@@ -1,4 +1,5 @@
 {
+  "type":"module",
   "name": "aula13-express-mongodb",
   "version": "1.0.0",
   "main": "index.js",
