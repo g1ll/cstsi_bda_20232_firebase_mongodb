@@ -3,7 +3,7 @@ import { promises as fs } from 'fs'
 
 try {
 
-    const data = await fs.readFile("./db_exported.json")
+    const data = await fs.readFile("./db.json")
     const produtos = JSON.parse(data)
 
     if (!produtos) throw Error('Arquivo não encontrado!!')
