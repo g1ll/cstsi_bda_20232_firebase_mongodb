@@ -16,7 +16,7 @@ const getAllProdutos = async (orderBy = 'id_prod', reverse = false) => {
     try {
         let resultados = []
         let opcoes = {
-            sort: {[orderBy]:!reverse ? 1 : -1},
+            sort: { [orderBy]: !reverse ? 1 : -1 },
             projection: { _id: 0 }
         }
         console.log({ orderBy, opcoes })
@@ -38,7 +38,7 @@ const getAllProdutos = async (orderBy = 'id_prod', reverse = false) => {
 const getProdutoById = async (idProd) => {
     try {
         let produto = {}
-        console.log({id:+idProd})
+        console.log({ id: +idProd })
         // let filtro = { id_prod: { $eq: parseInt(idProd) } }
         // let filtro = { id_prod: { $eq: Number(idProd) } }
         // let filtro = { id_prod: { $eq: +idProd } }
@@ -222,11 +222,12 @@ const changeIndexes = async (field) => {
     const indexes = await collection.indexes()
     const textIndexes = indexes.filter(index => index.key?._fts === 'text')
     const indexName = textIndexes[0]?.name
-    
-    if (!indexName || indexName !== field + '_text'){
-        if(indexName)
+
+    if (!indexName || indexName !== field + '_text') {
+        if (indexName)
             await collection.dropIndex(indexName)
-            await collection.createIndex({[field]:'text'})
+        
+        await collection.createIndex({ [field]: 'text' })
     }
 }
 

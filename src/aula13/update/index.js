@@ -29,16 +29,21 @@ try {
     // console.log(resultado)
 
     //Exemplo INC
-    // const filter = {id_prod:111};
+    // const filter = { id_prod: 111 };
     // const newProduto = {
-    //     qtd_estoque: -100
+    //     nome: -100
     // }
 
     // const collection = client.db('loja').collection('produtos')
-    // const resultado = await collection.updateOne(
-    //     filter,
-    //     {$inc:newProduto}
-    // );
+
+    // try {
+    //     const resultado = await collection.updateOne(
+    //         filter,
+    //         { $inc: newProduto }
+    //     );
+    // } catch(error) {
+    //     throw new Error(`Erro ao atualizar: ${error.message}`);
+    // }
     // console.log(resultado)
 
     //Exemplo INC DECREMENTO
@@ -50,10 +55,10 @@ try {
     //Exemplo RENAME
     // const filter = {id_prod:111};
     // const newProduto = {
-    //     qtd_estoque: 'qtdEstoque',
-    //     preco: 'price'
+    //     qtdEstoque: 'qtd_estoque',
+    //     price: 'preco'
     // }
-    // const collection = client.db('loja').collection('produtos')
+    // const collection = client.db('lojaFinal').collection('produtos')
     // const resultado = await collection.updateOne(
     //     filter,
     //     {$rename:newProduto}
@@ -67,7 +72,7 @@ try {
     //     importado:""//o valor do campo não é importante.
     //     // importado:1
     // }
-    // const collection = client.db('loja').collection('produtos')
+    // const collection = client.db('lojaFinal').collection('produtos')
     // const resultado = await collection.updateOne(
     //     filter,
     //     {$unset:newProduto}
@@ -77,9 +82,9 @@ try {
     //Exemplo MUL
     // const filter = {id_prod:111};
     // const newProduto = {
-    //     price:0.9 ///reduzir em 10% o preco do produto
+    //     preco:.9 ///reduzir em 10% o preco do produto
     // }
-    // const collection = client.db('loja').collection('produtos')
+    // const collection = client.db('lojaFinal').collection('produtos')
     // const resultado = await collection.updateOne(
     //     filter,
     //     {$mul:newProduto}
@@ -87,26 +92,26 @@ try {
     // console.log(resultado)
 
     //Exemplo UpdateMany
-    // const filter = {preco:{$lt:5000}};
+    // const filter = {preco:{$lt:2000}};
     // const newProduto = {
-    //     preco:0.9//reduzir em 10% o preco do produto
+    //     preco:.5//reduzir em 50% o preco do produto
     // }
-    // const collection = client.db('loja').collection('produtos')
+    // const collection = client.db('lojaFinal').collection('produtos')
     // const resultado = await collection.updateMany(
     //     filter,
     //     {$mul:newProduto}
     // );
+
     // console.log(resultado)
 
     //Exemplo REPLACEONE
-    // const filter = {id_prod:130};
-    // const newProduto = {
-    //     id_prod:130,
-    //     status:"acabou!"
-    // }
-    const collection = client.db('loja').collection('produtos')
-    // const resultado = await collection.replaceMany(filter,newProduto);
-    const resultado =  await collection.find().toArray();
+    const filter = {id_prod:133};
+    const newProduto = {
+        id_prod:133,
+        status:"acabou!"
+    }
+    const collection = client.db('lojaFinal').collection('produtos')
+    const resultado = await collection.replaceOne(filter,newProduto);
     console.log(resultado)
 
 } catch (error) {

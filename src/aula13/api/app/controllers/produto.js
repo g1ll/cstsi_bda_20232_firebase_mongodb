@@ -3,7 +3,7 @@ import * as model from '../models/produtosDao.js'
 const index = async (req, res) => {
     let listProds
     console.log(req.query)
-    if (req.query.order) {
+    if (req.query.order) {//localhost:3000/produtos/?order=preco&reverse=1
         let orderBy = req.query.order
         let reverse = +req.query.reverse ? true : false
         listProds = await model.getAllProdutos(orderBy, reverse);
@@ -46,15 +46,16 @@ const show = async (req, res) => {
     console.log(req.body)
     const produto = await model.getProdutoById(req.params.id)
     console.log(produto)
-    !produto && res.status(404);
+    // !produto && res.status(404);
+    if(!produto) res.status(404);
     res.send(produto)
 }
 
 const store = async (req, res) => {
     try {
         const formData = req.body;
-        console.log(formData, req.body)
-        console.log(formData, { ...req.body })
+        console.log("controller:",formData, req.body)
+        console.log("controller:",formData, { ...req.body })
         const produto = {
             id_prod: +formData.id_prod,
             nome: formData.nome,
@@ -150,6 +151,7 @@ const removeMany = async (req, res) => {
 
         if (!(await model.deleteManyProdutos(ids)))
             throw new Error("Erro ao remover o produtos!")
+            
         res.send({
             success: `Produtos removidos com sucesso!`,
             ids: req.body.ids
