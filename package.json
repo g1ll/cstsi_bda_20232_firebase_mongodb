@@ -5,5 +5,8 @@
     "firebase": "^9.21.0",
     "mongodb": "^5.5.0",
     "node-fetch": "^3.3.0"
+  },
+  "devDependencies": {
+    "prisma": "^4.16.0"
   }
 }
