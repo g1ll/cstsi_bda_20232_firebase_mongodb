@@ -1,11 +1,11 @@
-# IFSUL - CSTSI - 20231 - BANCO DE DADOS AVANÇADOS
+# IFSUL - CSTSI - 20232 - BANCO DE DADOS AVANÇADOS
 
 ## Instalação
 
 Faça o clone do repositório:
 
 ```shell
-	git clone git@github.com:g1ll/cstsi_bda_20231_firebase_mongodb.git
+	git clone git@github.com:g1ll/cstsi_bda_20232_firebase_mongodb.git
 ```
 
 Entre na pasta criada ***cstsi_bda_20231_firebase_mongodb***:
