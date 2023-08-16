@@ -1,11 +1,11 @@
-import db from "../libs/firebase/rtdb_conection.js";
+import db from "../libs/firebase/rtdb_connection.js";
 import { update,ref} from "firebase/database";
 
 const updatedObjects = {}
 
-updatedObjects['users/-NR8_2qC7w1AgdntUekA/email'] = "UPDATED"
-updatedObjects['users/-NR8_3XwbYuzzOEGqdgG/profifle_picture'] = "UPDATED"
-updatedObjects['users/-NR8_47uxklEcQftSb5S/username'] = "UPDATED"
+updatedObjects['user/-NbyKH-XNsy9sKhc0g80/username'] = "UPDATEDMANY"
+updatedObjects['user/-NbyKLhuUXdHQwmNCdjN/username'] = "UPDATEDMANY"
+updatedObjects['user/-NbyLzwl8tuHumN-yX_B/username'] = "UPDATEDMANY"
 
 
 console.log(updatedObjects)
@@ -15,4 +15,4 @@ setTimeout(() => {
 	.then(() => console.log('Atualização executada!'))
 	.catch(() => console.error('Erro!'))
 	.finally(()=>process.exit(0))
-}, 1500);
+}, 2000);

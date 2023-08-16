@@ -1,10 +1,15 @@
 {
-  "type": "module",
+  "type":"module",
+  "name": "cstsi_bda_20232_firebase_mongodb",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:g1ll/cstsi_bda_20232_firebase_mongodb.git",
+  "author": "Gill Velleda Gonzales <gillvelleda@gmail.com>",
+  "license": "MIT",
   "dependencies": {
-    "dotenv": "^16.0.3",
-    "firebase": "^9.21.0",
-    "mongodb": "^5.5.0",
-    "node-fetch": "^3.3.0"
-  },
-  "devDependencies": {}
+    "dotenv": "^16.3.1",
+    "firebase": "^10.1.0",
+    "mongodb": "^5.7.0",
+    "node-fetch": "^3.3.2"
+  }
 }
