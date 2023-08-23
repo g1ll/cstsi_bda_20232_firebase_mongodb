@@ -2,3 +2,5 @@
 .env
 **/.env
 **/yarn*
+env.js
+**/env.js

@@ -1,7 +1,7 @@
 import { off, onChildChanged, ref } from "firebase/database";
-import db from "../libs/firebase/rtdb_conection.js"
+import db from "../libs/firebase/rtdb_connection.js"
 
-const node = "users"
+const node = "user"
 //CHILD ADDED
 let refDB = ref(db, node);
 
@@ -18,12 +18,3 @@ onChildChanged(refDB, (snapshot) => { //()=>{}
     off(refDB, 'child_changed')
   }
 });
-
-onChildChanged(ref(db,'produtos'), (snapshot) =>{
-  if (!snapshot.exists()) {
-    console.log("Nó não encontrado")
-    process.exit(0)
-  }
-  console.table(snapshot.val())
-})
- 

@@ -1,8 +1,8 @@
 import { onValue, ref } from "firebase/database";
-import db from "../libs/firebase/rtdb_conection.js"
+import db from "../libs/firebase/rtdb_connection.js"
 
 
-const node = "users"
+const node = "user"
 //ONVALUE ONLY-ONCE
 onValue(ref(db,node),(snapshot)=>{ //()=>{}
     if(!snapshot.exists()){

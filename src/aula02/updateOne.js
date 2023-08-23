@@ -3,11 +3,11 @@ import { update,ref} from "firebase/database";
 
 const updatedObject = {
 	// email:"UPDATED",
-	profile_picture:'UPDATED IMAGE'
+	username:'childChangedOff'
 }
 
 setTimeout(() => {
-	update(ref(db,'user/-NbyLzwl8tuHumN-yX_B'), updatedObject)
+	update(ref(db,'user/3'), updatedObject)
 	.then(() => console.log('Atualização executada!'))
 	.catch(() => console.error('Erro!'))
 	.finally(()=>process.exit(0))
