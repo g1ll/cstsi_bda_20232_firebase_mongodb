@@ -10,9 +10,7 @@ onValue(consulta, (dados) => {
   console.log(dados.val());
   let arrayDados = Object.entries(dados.val())
   arrayDados.reverse();
-
   console.log('DESC')
   console.log(arrayDados)
-  arrayDados.forEach(
-    (item,index)=>console.log(`${index}: ${item[0]}`))
+  arrayDados.forEach((item,index)=>console.log(`${index}: ${item[0]}`))
 })

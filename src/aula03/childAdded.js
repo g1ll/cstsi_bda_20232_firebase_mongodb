@@ -1,18 +1,11 @@
 import db from "../libs/firebase/rtdb_connection.js"
-import { onChildAdded, onValue, ref } from "firebase/database";
+import { onChildAdded, ref } from "firebase/database";
 
-
-const node = "user"
-//CHILD ADDED
+const node = "users"
+const refNode = ref(db,node);
 let count =0;
-let refDB = ref(db,node);
 
-onChildAdded(refDB,(snapshot)=>{
-  //console.log(sapshot.val()) //()=>{}
-  if(!snapshot.exists()){
-      console.log("Nó não encontrado")
-      process.exit(0)
-  }
+onChildAdded(refNode,(snapshot)=>{
   console.log(++count)
   console.table(snapshot.val())
 });

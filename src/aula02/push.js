@@ -8,7 +8,7 @@ const newUser = {
 }
 
 try{
-	await push(ref(db, 'user/'), newUser)
+	await push(ref(db, 'users/'), newUser)
 	console.log('Inserido!')
 }catch(error){
 	console.log("Erro: "+error)
