@@ -1,0 +1,24 @@
+{
+	"rules": {
+	  ".read":"false",
+	  //".read": "now < 1694142000000",  // 20-9-8
+	  //".write": "now < 1694142000000",  // 2023-9-8
+	 "produtos":{
+	   ".read":"true",
+	   ".indexOn": ["preco","nome","qtd_estoque"],
+	  ".write":"true",
+	   "$prod":{
+		 // ".write": "$prod === '1'",
+		 ".validate":"newData.child('preco').val() > 2.39
+		 && root.child('write').val() === false
+		 //validando a presença dos campos qtd_estoque e nome
+		 && newData.hasChildren(['qtd_estoque','nome'])
+		 //validando o campo descricao
+		 && newData.child('descricao').exists() //se existe o campo
+		 && newData.child('descricao').isString() //se é uma string
+		 && newData.child('descricao').val().length > 2 //se a quantidade de char é maior que
+		 && newData.child('descricao').val().length <= 3",//se a qtd char é menor igual que
+	   }
+	 }
+	}
+  }

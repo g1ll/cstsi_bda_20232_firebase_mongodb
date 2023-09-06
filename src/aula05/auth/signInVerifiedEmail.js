@@ -1,4 +1,4 @@
-import db from '../../libs/firebase/rtdb_conection.js'
+import db from '../../libs/firebase/rtdb_connection.js'
 import {
     getAuth, signInWithEmailAndPassword, signOut,
 	// sendEmailVerification
@@ -19,10 +19,11 @@ try {
 	const credentials = await signInWithEmailAndPassword(
         auth, user.email, user.password)
     
+    console.log(credentials);
     if(!credentials.user.emailVerified)
         throw new Error("Valide o seu email!!!")
     
-    console.log(credentials.user.uid);
+    
 } catch (error) {
     const errorCode = error.code;
     const errorMessage = error.message;

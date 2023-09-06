@@ -18,7 +18,7 @@ const auth = getAuth();
 // }
 
 const user = {
-    email: 'gillvelleda@gmail.com',
+    email: 'velledagonzales@gmail.com',
     password: 'qwerty',
     name: 'Gill'
 }

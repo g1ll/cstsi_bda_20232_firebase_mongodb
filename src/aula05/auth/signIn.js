@@ -1,7 +1,6 @@
-import db from '../../libs/firebase/rtdb_conection.js'
+import db from '../../libs/firebase/rtdb_connection.js'
 import {
     getAuth, signInWithEmailAndPassword, signOut,
-	// sendEmailVerification
 } from 'firebase/auth';
 
 //###AUTENTICAÇÃO####
@@ -22,6 +21,8 @@ try {
 	console.log({"token": auth.currentUser?.accessToken})
 
     console.log({ "uid": auth.currentUser.uid })
+
+    console.log({ "email": auth.currentUser.emailVerified })
 
     await signOut(auth) //desconecta o user
     
