@@ -15,7 +15,7 @@ const refDB = fb.ref(db, 'produtos/');
 // const consulta = fb.query(refDB,fb.orderByChild(filtro),fb.limitToLast(total))
 // const consulta = fb.query(refDB, fb.orderByChild(filtro), fb.startAt(value))
 // const consulta = fb.query(refDB,fb.orderByChild(filtro),fb.startAfter(value))
-// const consulta = fb.query(refDB,fb.orderByChild(filtro),fb.endAt(value))
+const consulta = fb.query(refDB,fb.orderByChild(filtro),fb.endAt(value))
 // const consulta = fb.query(refDB,fb.orderByChild(filtro),fb.endBefore(value))
 // const consulta = fb.query(refDB,fb.orderByChild(filtro),fb.equalTo(value))
 
@@ -26,11 +26,11 @@ const refDB = fb.ref(db, 'produtos/');
 // )
 
 //NÃO FUNCIONA COMO UM LIKE OU FULLTEXT SEARCH
-const consulta = fb.query(refDB,
-        fb.orderByChild('nome'),
-        fb.startAt('GAIN'),
-        // fb.endAt('T')
-    ) // != like "SSD%"
+// const consulta = fb.query(refDB,
+//         fb.orderByChild('nome'),
+//         fb.startAt('GAIN'),
+//         // fb.endAt('T')
+//     ) // != like "SSD%"
 
 // const consulta = fb.query(refDB,fb.orderByChild('preco'));
 
