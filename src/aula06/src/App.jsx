@@ -1,9 +1,8 @@
 import { Button, FormControl, Input, InputLabel, Icon } from '@mui/material'
 import { useEffect, useState } from 'react';
-import { addDoc, collection, getDocs } from 'firebase/firestore';
+import { addDoc, collection, deleteDoc, doc, getDocs } from 'firebase/firestore';
 import { db } from "./firebase"
 import './App.css';
-
 
 function App() {
 
@@ -14,6 +13,10 @@ function App() {
   const collectionRef = collection(db, 'todos')
 
   useEffect(() => {
+    getTodos()
+  }, []);
+
+  const getTodos = () => {
     getDocs(collectionRef)
       .then(querySnap => {
         const docs = querySnap.docs
@@ -21,28 +24,28 @@ function App() {
           throw Error("Empty data!")
 
         const todos = docs.map(
-          doc => doc.data().text
+          doc => ({
+            id: doc.id,
+            text: doc.data().text
+          })
         )
         setTodos(todos)
         setLoaded(true)
       }).catch(e =>
         console.error(e)
       );
-  }, []);
+  }
 
   const addTodo = async e => {
     e.preventDefault()
-    await addDoc(collectionRef,{text:input})
+    await addDoc(collectionRef, { text: input })
     setTodos([...todos, input])
     setInput('')
   }
 
-  const delTodo = itemIndex => {
-    console.log("Deletar:" + itemIndex)
-    const filtered = todos.filter(
-      (v, index) => index !== itemIndex
-    )
-    setTodos(filtered)
+  const delTodo = async todoId => {
+    await deleteDoc(doc(db, 'todos', todoId))
+    getTodos()
   }
 
   return (
@@ -69,14 +72,14 @@ function App() {
         : (
           <ul style={{ listStyle: "none" }}>
             {
-              todos.map((todo, index) => (<>
-                <li key={index}>{todo}</li>
-                <Button key={'btn-' + index}
-                  onClick={() => delTodo(index)}
-                  color="error" >
-                  <Icon>delete_forever</Icon>
-                </Button>
-              </>
+              todos.map((todo, index) => (
+                <li key={index}>{todo.text}
+                  <Button key={'btn-' + index}
+                    onClick={() => delTodo(todo.id)}
+                    color="error" >
+                    <Icon>delete_forever</Icon>
+                  </Button>
+                </li>
               ))}
           </ul>
         )}
