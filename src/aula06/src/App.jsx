@@ -1,7 +1,7 @@
 import { Button, FormControl, Input, InputLabel, Icon } from '@mui/material'
 import { useEffect, useState } from 'react';
-import { collection, getDocs } from 'firebase/firestore';
-import {db} from "./firebase"
+import { addDoc, collection, getDocs } from 'firebase/firestore';
+import { db } from "./firebase"
 import './App.css';
 
 
@@ -10,10 +10,10 @@ function App() {
   const [todos, setTodos] = useState([])
   const [input, setInput] = useState('Digite...')
 
-  const [isLoaded,setLoaded] = useState(false)
-  const collectionRef = collection(db,'todos')
+  const [isLoaded, setLoaded] = useState(false)
+  const collectionRef = collection(db, 'todos')
 
-  useEffect(()=>{
+  useEffect(() => {
     getDocs(collectionRef)
       .then(querySnap => {
         const docs = querySnap.docs
@@ -28,16 +28,17 @@ function App() {
       }).catch(e =>
         console.error(e)
       );
-  },[]);
+  }, []);
 
-  const addTodo = e => {
+  const addTodo = async e => {
     e.preventDefault()
+    await addDoc(collectionRef,{text:input})
     setTodos([...todos, input])
     setInput('')
   }
 
   const delTodo = itemIndex => {
-    console.log("Deletar:"+itemIndex)
+    console.log("Deletar:" + itemIndex)
     const filtered = todos.filter(
       (v, index) => index !== itemIndex
     )
@@ -52,7 +53,7 @@ function App() {
           <InputLabel>Write a TODO</InputLabel>
           <Input
             value={input}
-            onChange={e => 
+            onChange={e =>
               setInput(e.target.value)
             } />
         </FormControl>
@@ -61,18 +62,24 @@ function App() {
           color="primary" disabled={!input}>Add Todo
         </Button>
       </form>
-      <ul style={{ listStyle: "none" }}>
-        {
-          todos.map((todo,index)=>(<>
-            <li key={index}>{todo}</li>
-            <Button key={'btn-'+index} 
-                onClick={()=> delTodo(index)} 
-                color="error" >
-                <Icon>delete_forever</Icon>
-            </Button>
-          </>
-        ))}
-      </ul>
+      {!isLoaded
+        ? (<p>
+          Carregando os dados...
+        </p>)
+        : (
+          <ul style={{ listStyle: "none" }}>
+            {
+              todos.map((todo, index) => (<>
+                <li key={index}>{todo}</li>
+                <Button key={'btn-' + index}
+                  onClick={() => delTodo(index)}
+                  color="error" >
+                  <Icon>delete_forever</Icon>
+                </Button>
+              </>
+              ))}
+          </ul>
+        )}
     </div>
   );
 }
