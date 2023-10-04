@@ -1,6 +1,6 @@
 import { Button, FormControl, Input, InputLabel, Icon } from '@mui/material'
 import { useEffect, useState } from 'react';
-import { addDoc, collection, deleteDoc, doc, getDocs } from 'firebase/firestore';
+import { addDoc, collection, deleteDoc, doc, getDocs, updateDoc } from 'firebase/firestore';
 import { db } from "./firebase"
 import './App.css';
 
@@ -8,8 +8,9 @@ function App() {
 
   const [todos, setTodos] = useState([])
   const [input, setInput] = useState('Digite...')
-
+  const [idToUpdated, setIdToUpdated] = useState()
   const [isLoaded, setLoaded] = useState(false)
+  const [isEditMode,setIsEditMode] = useState(false)
   const collectionRef = collection(db, 'todos')
 
   useEffect(() => {
@@ -48,6 +49,24 @@ function App() {
     getTodos()
   }
 
+  const editTodo = async todoId => {
+    const todo = todos.find(todo => todo.id == todoId)
+    setInput(todo.text)
+    setIdToUpdated(todo.id)
+    setIsEditMode(true)
+  }
+
+  const updateTodo = async e => {
+    e.preventDefault()
+    await updateDoc(
+      doc(db, 'todos', idToUpdated),
+      {text:input}
+    )
+    setInput('')
+    setIsEditMode(false)
+    getTodos()
+  }
+
   return (
     <div className="App">
       <h1>TODO React Firebase</h1>
@@ -61,8 +80,13 @@ function App() {
             } />
         </FormControl>
         <Button
-          type="submit" onClick={addTodo} variant="contained"
-          color="primary" disabled={!input}>Add Todo
+          type="submit"
+          onClick={isEditMode?updateTodo:addTodo}
+          variant="contained"
+          color="success" 
+          disabled={!input}>
+            {!isEditMode?"Add ":"Edit "}
+            Todo
         </Button>
       </form>
       {!isLoaded
@@ -74,7 +98,12 @@ function App() {
             {
               todos.map((todo, index) => (
                 <li key={index}>{todo.text}
-                  <Button key={'btn-' + index}
+                  <Button
+                    onClick={() => editTodo(todo.id)}
+                    color="primary" >
+                    <Icon>edit_note</Icon>
+                  </Button>
+                  <Button
                     onClick={() => delTodo(todo.id)}
                     color="error" >
                     <Icon>delete_forever</Icon>
