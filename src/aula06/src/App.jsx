@@ -40,8 +40,8 @@ function App() {
   const addTodo = async e => {
     e.preventDefault()
     await addDoc(collectionRef, { text: input })
-    setTodos([...todos, input])
     setInput('')
+    getTodos()
   }
 
   const delTodo = async todoId => {
