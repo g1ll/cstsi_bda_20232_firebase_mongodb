@@ -1,174 +1,67 @@
-import { MongoClient } from 'mongodb'
+// import { MongoClient } from "mongodb";
+import {readFile} from 'fs/promises';
+import client from './dbConnection.js';
 
-const myDB = {
-    server: 'localhost',
-    port: 27017,
-}
-const uri = `mongodb://${myDB.server}:${myDB.port}`;
-const client = new MongoClient(uri);
+// const myDB = {
+// 	domain: "localhost",
+// 	port: 27017
+// }
+
+// const uri = `mongodb://${myDB.domain}:${myDB.port}`
 
 try {
-    await client.connect()
-    if (client.db('admin').command({ "ping": 1 }))
-        console.log("Conectado!");
-    else throw Error("Erro ao conectar ao banco !!")
 
-    const dbName = 'loja'
-    //consulta simples
-    //SELECT * FROM produtos
-    // const resultados = await client.db(dbName)
-    //             .collection('produtos')
-    //             .find().toArray()
+	//exemplo insere um
+	// const produto = {
+	// 	id_prod: 157,
+	// 	nome: "Novo Produto Teste TRES",
+	// 	descricao:"Testando inserção de novo produto"
+	// }
 
-    //consulta com projeção 
-    // const resultados = await client.db(dbName)
-    // .collection('produtos')
-    // .find({},
-    //     {
-    //         projection: {
-    //             _id:0,
-    //             id_prod: 1,
-    //             nome:1,
-    //             importado:1,
-    //             preco: 1
-    //         }
-    //     }).toArray()
+	// const produtoCollection = client.db('loja').collection('produtos')
+	// const result = await produtoCollection.insertOne(produto)
 
-    //especificando os campos que não queremos que apareçam
-    // const resultados = await client.db(dbName).collection('produtos')
-    //     .find({},
-    //         {
-    //             projection: {
-    //                 _id: 0,
-    //                 qtd_estoque: 0,
-    //                 descricao: 0,
-                    // desconto:0,
-                    // qtdEstoque:0,
-                    // price:0
-    //             },
-    //             sort:{
-    //                 preco:-1
-    //             }
-    //         }).toArray()
-    // resultados.map((produto,index)=>console.log(`${index} | ${produto.id_prod} | ${produto.nome} | ${produto.preco} | ${produto.importado}`))
-    
-    //Usando o Projection como um método
-    // const collectProdutos = client.db(dbName).collection('produtos')
-    // const resultados = await collectProdutos.find()
-    //     .project({
-    //                 _id: 0,
-    //                 qtd_estoque: 0,
-    //                 descricao: 0
-    //             }).toArray()
+	//Insert Many
 
-    //Exemplo de ordenação com a opção sort
-    // const resultados = await client.db(dbName)
-    // .collection('produtos')
-    //     .find({},{
-    //            sort:{preco:-1},
-    //            projection: { _id: 0,qtd_estoque: 0, descricao: 0}
-    //         }).toArray()
+	//criando um array de objetos que representam cada documento
+	// const produtos = [
+	// 	{
+	// 		id_prod: 558,
+	// 		nome: "Novo Produto Teste quatro",
+	// 		descricao: "Testando inserção de novo produto"
+	// 	},
+	// 	{
+	// 		id_prod: 559,
+	// 		nome: "Novo Produto Teste quinto",
+	// 		descricao: "Testando inserção de novo produto"
+	// 	},
+	// 	{
+	// 		id_prod: 560,
+	// 		nome: "Novo Produto Teste sexto",
+	// 		descricao: "Testando inserção de novo produto"
+	// 	}
+	// ]
 
-    //Usando o Sort como um método
-    // const resultados = await client.db(dbName).collection('produtos')
-    //     .find().project({
-    //                 _id: 0,
-    //                 qtd_estoque: 0,
-    //                 descricao: 0
-    //             }).sort({preco:-1}).toArray()
+	//alternativa ao array, leitura de uma arquivo json
+	//lendo os dados a partir de um arquivo json
+	const jsonFile = await readFile('./produtos.json')
+	const produtos = JSON.parse(jsonFile);
 
-    //Exemplo de filtro de dados
-    // const resultados = await client.db(dbName).collection('produtos')
-    //     .find({
-    //             preco:{$lt:5000},
-    //             // importado:true
-    //             importado:{$eq:false},
-    //             qtd_estoque:{$gte:200}
-    //         },
-    //         {   
-    //             sort:{preco:1},
-    //             projection: { _id: 0, descricao: 0}
-    //         }).toArray()
+	//inserindo varios documentos de uma vez só no banco loja na coleção produtos
+	const result = await client.db('loja')
+				.collection('produtos')
+				.insertMany(produtos)
 
-    //Exemplo de operadores de comparação
-    // const filtro = {
-    //     importado:{$eq:false},//produtos nacionais
-    //     qtd_estoque:{$gte:200}//com 200 ou mais itens em estoque
-    // }
-    // const opcoes = {   
-    //     sort:{qtd_estoque:1},
-    //     projection: { _id: 0,preco: 0, descricao: 0}
-    // }
 
-    //Exemplo de filtro com in ou nin
-    // const filtro = {
-    //     id_prod:{$in:[111,115,125,124,136,114]}
-    // }
+	result?.acknowledged && console.log("Produto inserido!!")
+	console.log(result)
 
-    //OPERADORES LÓGICOS
-    // AND
-    const filtro = {
-            $and:[ // V e V -> V; V e F -> F; F e F -> F;
-                {preco:{$gte:3000}},
-                {preco:{$lte:9000}}
-            ]
-        }
 
-    //NOT
-    // const filtro = {
-    //     preco:{$not:{$gte:5000}} //$lt
-    // }
-
-    //OR
-    // const filtro = {
-    //     $or: [
-    //         { qtd_estoque: { $lt: 100 } },
-    //         { qtd_estoque: { $eq: 150 } },
-    //     ]
-    // }
-    
-    //NOR
-    // const filtro = {
-    //     $nor: [
-    //         { qtd_estoque: { $lt: 100 } },
-    //         { qtd_estoque: { $eq: 150 } },
-    //     ]
-    // }
-
-    // const filtro = {
-    //         $nor: [
-    //             {preco:{$lt:3000}},
-    //             {preco:{$gt:9000}}
-    //         ]
-    //     }
-
-    //= AND
-    // const filtro = {
-    //         $and:[ // V e V -> V
-    //             {preco:{$gte:3000}},
-    //             {preco:{$lte:9000}}
-    //         ]
-    //     }
-
-    const opcoes = { 
-        sort: { preco: 1 },
-        projection: { _id: 0,
-                     descricao: 0,
-                     desconto:0,
-                     qtdEstoque:0,
-                     price:0 }
-     }
-
-    const collection = client.db(dbName)
-        .collection('produtos')
-    const resultados = await collection.find(filtro, opcoes).toArray()
-     
-    console.table(resultados)
 
 } catch (error) {
-    console.log(error)
+	console.log("ERROR")
+	console.log(error)
 }
 finally {
-    await client.close()
-    process.exit(0)
+	process.exit(0)
 }

@@ -9,64 +9,160 @@ const client = new MongoClient(uri);
 
 try {
     await client.connect()
-    if (!client.db('admin').command({ "ping": 1 }))
-        throw Error("Erro ao conectar ao banco !!")
+    if (client.db('admin').command({ "ping": 1 }))
+        console.log("Conectado!");
+    else throw Error("Erro ao conectar ao banco !!")
+
+    const dbName = 'loja'
+    //consulta simples
+    //SELECT * FROM produtos
+    // const resultados = await client.db(dbName)
+    //             .collection('produtos')
+    //             .find().toArray()
+
+    //consulta com projeção 
+    // const resultados = await client.db(dbName)
+    // .collection('produtos')
+    // .find({},
+    //     {
+    //         projection: {
+    //             _id:0,
+    //             id_prod: 1,
+    //             nome:1,
+    //             importado:1,
+    //             preco: 1
+    //         }
+    //     }).toArray()
+
+    //especificando os campos que não queremos que apareçam
+    // const resultados = await client.db(dbName).collection('produtos')
+    //     .find({},
+    //         {
+    //             projection: {
+    //                 _id: 0,
+    //                 qtd_estoque: 0,
+    //                 descricao: 0,
+                    // desconto:0,
+                    // qtdEstoque:0,
+                    // price:0
+    //             },
+    //             sort:{
+    //                 preco:-1
+    //             }
+    //         }).toArray()
+    // resultados.map((produto,index)=>console.log(`${index} | ${produto.id_prod} | ${produto.nome} | ${produto.preco} | ${produto.importado}`))
     
-    //Exemplo de uso da sensibilidade quanto á maiusculo ou minísculo
-    //Retornará apenas os produtos com a palavra Samsumg escrita exatamente igual ao termo
-    // const termo = "Samsumg"
-    // let filtro = {
-    //     $text: {
-    //         $search: termo,
-    //         $caseSensitive:true
-    //     }
+    //Usando o Projection como um método
+    // const collectProdutos = client.db(dbName).collection('produtos')
+    // const resultados = await collectProdutos.find()
+    //     .project({
+    //                 _id: 0,
+    //                 qtd_estoque: 0,
+    //                 descricao: 0
+    //             }).toArray()
+
+    //Exemplo de ordenação com a opção sort
+    // const resultados = await client.db(dbName)
+    // .collection('produtos')
+    //     .find({},{
+    //            sort:{preco:-1},
+    //            projection: { _id: 0,qtd_estoque: 0, descricao: 0}
+    //         }).toArray()
+
+    //Usando o Sort como um método
+    // const resultados = await client.db(dbName).collection('produtos')
+    //     .find().project({
+    //                 _id: 0,
+    //                 qtd_estoque: 0,
+    //                 descricao: 0
+    //             }).sort({preco:-1}).toArray()
+
+    //Exemplo de filtro de dados
+    // const resultados = await client.db(dbName).collection('produtos')
+    //     .find({
+    //             preco:{$lt:5000},
+    //             // importado:true
+    //             importado:{$eq:false},
+    //             qtd_estoque:{$gte:200}
+    //         },
+    //         {   
+    //             sort:{preco:1},
+    //             projection: { _id: 0, descricao: 0}
+    //         }).toArray()
+
+    //Exemplo de operadores de comparação
+    // const filtro = {
+    //     importado:{$eq:false},//produtos nacionais
+    //     qtd_estoque:{$gte:200}//com 200 ou mais itens em estoque
+    // }
+    // const opcoes = {   
+    //     sort:{qtd_estoque:1},
+    //     projection: { _id: 0,preco: 0, descricao: 0}
     // }
 
-
-    //Exemplo de uso da sensibilidade diacritica
-    //Retornará apenas os produtos com a palavra reclinável com acento
-    // const termo = "reclinavel"
-    // let filtro = {
-    //     $text: {
-    //         $search: termo,
-    //         $diacriticSensitive:true
-    //     }
+    //Exemplo de filtro com in ou nin
+    // const filtro = {
+    //     id_prod:{$in:[111,115,125,124,136,114]}
     // }
 
-    
-    //Exemplo de exclusão de termo
-    //Retornará todos os produtos com a palavra Smartphone,
-    //exceto aqueles com o termo samsumg
-    // const termo = "SmartTV -LG"
-    // let filtro = {
-    //     $text: {
-    //         $search: termo,
-    //     }
-    // }
-
-    // //Exemplo busca por frases, índice descricao
-    // const termo = "smart"
-    // const termo = "\"SmartTV SAMSUMG\""
-    let filtro = {
-        $text: {
-            $search: termo,
+    //OPERADORES LÓGICOS
+    // AND
+    const filtro = {
+            $and:[ // V e V -> V; V e F -> F; F e F -> F;
+                {preco:{$gte:3000}},
+                {preco:{$lte:9000}}
+            ]
         }
-    }
 
-    // filtro = {}
-    // const opcoes = { 
-    //     sort: { nome: 1 },
-    //     projection: { _id: 0, nome: 0, qtd_estoque:0,importado:0 }
-    //  }
+    //NOT
+    // const filtro = {
+    //     preco:{$not:{$gte:5000}} //$lt
+    // }
 
-     const opcoes = { 
-        sort: { nome: 1 },
-        projection: { _id: 0, nome:0 }
+    //OR
+    // const filtro = {
+    //     $or: [
+    //         { qtd_estoque: { $lt: 100 } },
+    //         { qtd_estoque: { $eq: 150 } },
+    //     ]
+    // }
+    
+    //NOR
+    // const filtro = {
+    //     $nor: [
+    //         { qtd_estoque: { $lt: 100 } },
+    //         { qtd_estoque: { $eq: 150 } },
+    //     ]
+    // }
+
+    // const filtro = {
+    //         $nor: [
+    //             {preco:{$lt:3000}},
+    //             {preco:{$gt:9000}}
+    //         ]
+    //     }
+
+    //= AND
+    // const filtro = {
+    //         $and:[ // V e V -> V
+    //             {preco:{$gte:3000}},
+    //             {preco:{$lte:9000}}
+    //         ]
+    //     }
+
+    const opcoes = { 
+        sort: { preco: 1 },
+        projection: { _id: 0,
+                     descricao: 0,
+                     desconto:0,
+                     qtdEstoque:0,
+                     price:0 }
      }
 
-    const collection = client.db('loja')
+    const collection = client.db(dbName)
         .collection('produtos')
     const resultados = await collection.find(filtro, opcoes).toArray()
+     
     console.table(resultados)
 
 } catch (error) {
