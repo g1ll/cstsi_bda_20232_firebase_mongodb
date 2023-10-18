@@ -1,6 +1,6 @@
 import { Button, FormControl, Input, InputLabel, Icon } from '@mui/material'
 import { useEffect, useState } from 'react';
-import { addDoc, collection, deleteDoc, doc, getDocs, updateDoc } from 'firebase/firestore';
+import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, updateDoc } from 'firebase/firestore';
 import { db } from "./firebase"
 import './App.css';
 
@@ -28,7 +28,8 @@ function App() {
           doc => {
             let todo = {
               id: doc.id,
-              ...doc.data()
+              ...doc.data(),
+              owner:'Anônimo'
             }
             if (todo.details) {
               let date = todo.details.deadline.toDate()
@@ -39,11 +40,28 @@ function App() {
             return todo
           })
         loadSteps(todos)
+        loadOwners(todos)
         setTodos(todos)
         setLoaded(true)
       }).catch(e =>
         console.error(e)
       );
+  }
+
+  const loadOwners = (todos) => {
+    todos.forEach(todo => {
+      todo.userid && getDoc(doc(db, 'users', todo.userid))
+        .then(userSnap => {
+          if (!userSnap.exists) return;
+          let newTodos = todos.map(ntodo => {
+            if (ntodo.id === todo.id)
+              ntodo.owner = userSnap.data().name;
+            return ntodo
+          })
+          setTodos(newTodos)
+        })
+        .catch(e => console.error(e.message))
+    })
   }
 
   const loadSteps = (todos) => {
@@ -143,6 +161,7 @@ function App() {
                             </ol>
                           </li>
                           : ''}
+                        <li>Autor: {todo.owner}</li>
                       </ul>
                     </details>
                     : (
@@ -150,15 +169,22 @@ function App() {
                         <>
                           <details style={{ display: 'inline' }}>
                             <summary>{todo.text}</summary>
-                            <ul><li>Passos:
-                              <ol>
-                                {todo.steps.map((step, i) => <li key={i}>
-                                  {step.description}
-                                </li>)}
-                              </ol>
-                            </li></ul>
+                            <ul>
+                              <li>Passos:
+                                <ol>
+                                  {todo.steps.map((step, i) => <li key={i}>
+                                    {step.description}
+                                  </li>)}
+                                </ol>
+                              </li>
+                              <li>Autor: {todo.owner}</li>
+                            </ul>
                           </details></>
-                        : todo.text
+                        : <>{todo.text} &nbsp;| &nbsp;
+                        <span style={{ fontSize: '.7rem' }}>
+                          Autor: {todo.owner}
+                        </span>
+                      </>
                     )}
                   <Button
                     onClick={() => editTodo(todo.id)}
