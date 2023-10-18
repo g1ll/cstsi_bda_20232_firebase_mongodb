@@ -33,16 +33,38 @@ function App() {
             if (todo.details) {
               let date = todo.details.deadline.toDate()
               console.log(date);
-              let deadline = `${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()}`
+              let deadline = `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`
               todo.details.deadline = deadline;
             }
             return todo
           })
+        loadSteps(todos)
         setTodos(todos)
         setLoaded(true)
       }).catch(e =>
         console.error(e)
       );
+  }
+
+  const loadSteps = (todos) => {
+    todos.forEach(todo => {
+      const stepRef = collection(db, `todos/${todo.id}/steps`)
+      getDocs(stepRef)
+        .then(snapSteps => {
+          if (snapSteps.empty)
+            return;
+          let steps = snapSteps.docs.map(stepDoc => {
+            return { id: stepDoc.id, ...stepDoc.data() }
+          })
+          let newTodos = todos.map(ntodo => {
+            if (ntodo.id === todo.id)
+              ntodo.steps = steps
+            return ntodo
+          })
+          setTodos(newTodos)
+        })
+        .catch(e => console.error(e.message))
+    })
   }
 
   const addTodo = async e => {
@@ -112,10 +134,32 @@ function App() {
                       <ul>
                         <li>Prioridade: {todo.details.priority > 0 ? 'Mínima' : 'Máxima'}</li>
                         <li>Prazo: {todo.details.deadline}</li>
+                        {todo.steps ?
+                          <li>Passos:
+                            <ol>
+                              {todo.steps.map((step, i) => <li key={`step_${index}-${i}`}>
+                                {step.description}
+                              </li>)}
+                            </ol>
+                          </li>
+                          : ''}
                       </ul>
                     </details>
-                    : todo.text
-                  }
+                    : (
+                      todo.steps ?
+                        <>
+                          <details style={{ display: 'inline' }}>
+                            <summary>{todo.text}</summary>
+                            <ul><li>Passos:
+                              <ol>
+                                {todo.steps.map((step, i) => <li key={i}>
+                                  {step.description}
+                                </li>)}
+                              </ol>
+                            </li></ul>
+                          </details></>
+                        : todo.text
+                    )}
                   <Button
                     onClick={() => editTodo(todo.id)}
                     color="primary" >
