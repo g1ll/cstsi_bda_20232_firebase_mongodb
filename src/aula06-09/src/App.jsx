@@ -98,8 +98,10 @@ function App() {
         .then(userSnap => {
           if (!userSnap.exists) return;
           let newTodos = todos.map(ntodo => {
-            if (ntodo.id === todo.id)
+            if (ntodo.id === todo.id) {
               ntodo.owner = userSnap.data().name;
+              ntodo.ownerEmail = userSnap.data().email;
+            }
             return ntodo
           })
           setTodos(newTodos)
@@ -205,7 +207,12 @@ function App() {
                             </ol>
                           </li>
                           : ''}
-                        <li>Autor: {todo.owner}</li>
+                        <li>Autor: {todo.owner}
+                          {
+                            todo.ownerEmail
+                              ? <>&nbsp;&nbsp; | &nbsp;<i>{todo.ownerEmail}</i></>
+                              : ''}
+                        </li>
                         {todo.collabs ? <>
                           <li>Colaboradores:
                             <ul>
@@ -242,7 +249,7 @@ function App() {
                                 : ''}
                             </ul>
                           </details></>
-                        : <>{todo.text} &nbsp;| &nbsp;
+                        : <><b>{todo.text}</b> &nbsp;| &nbsp;
                           <span style={{ fontSize: '.7rem' }}>
                             Autor: {todo.owner}
                           </span>
