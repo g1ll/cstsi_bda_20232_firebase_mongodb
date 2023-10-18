@@ -10,7 +10,7 @@ function App() {
   const [input, setInput] = useState('Digite...')
   const [idToUpdated, setIdToUpdated] = useState()
   const [isLoaded, setLoaded] = useState(false)
-  const [isEditMode,setIsEditMode] = useState(false)
+  const [isEditMode, setIsEditMode] = useState(false)
   const collectionRef = collection(db, 'todos')
 
   useEffect(() => {
@@ -25,11 +25,19 @@ function App() {
           throw Error("Empty data!")
 
         const todos = docs.map(
-          doc => ({
-            id: doc.id,
-            text: doc.data().text
+          doc => {
+            let todo = {
+              id: doc.id,
+              ...doc.data()
+            }
+            if (todo.details) {
+              let date = todo.details.deadline.toDate()
+              console.log(date);
+              let deadline = `${date.getDate()}/${date.getMonth()+1}/${date.getFullYear()}`
+              todo.details.deadline = deadline;
+            }
+            return todo
           })
-        )
         setTodos(todos)
         setLoaded(true)
       }).catch(e =>
@@ -60,7 +68,7 @@ function App() {
     e.preventDefault()
     await updateDoc(
       doc(db, 'todos', idToUpdated),
-      {text:input}
+      { text: input }
     )
     setInput('')
     setIsEditMode(false)
@@ -81,12 +89,12 @@ function App() {
         </FormControl>
         <Button
           type="submit"
-          onClick={isEditMode?updateTodo:addTodo}
+          onClick={isEditMode ? updateTodo : addTodo}
           variant="contained"
-          color="success" 
+          color="success"
           disabled={!input}>
-            {!isEditMode?"Add ":"Edit "}
-            Todo
+          {!isEditMode ? "Add " : "Edit "}
+          Todo
         </Button>
       </form>
       {!isLoaded
@@ -97,7 +105,17 @@ function App() {
           <ul style={{ listStyle: "none" }}>
             {
               todos.map((todo, index) => (
-                <li key={index}>{todo.text}
+                <li key={index}>
+                  {todo.details ?
+                    <details style={{ display: 'inline' }}>
+                      <summary>{todo.text}</summary>
+                      <ul>
+                        <li>Prioridade: {todo.details.priority > 0 ? 'Mínima' : 'Máxima'}</li>
+                        <li>Prazo: {todo.details.deadline}</li>
+                      </ul>
+                    </details>
+                    : todo.text
+                  }
                   <Button
                     onClick={() => editTodo(todo.id)}
                     color="primary" >
