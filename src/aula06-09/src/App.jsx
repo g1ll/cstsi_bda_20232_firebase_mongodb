@@ -1,6 +1,6 @@
 import { Button, FormControl, Input, InputLabel, Icon } from '@mui/material'
 import { useEffect, useState } from 'react';
-import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, updateDoc } from 'firebase/firestore';
+import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, query, updateDoc, where, documentId } from 'firebase/firestore';
 import { db } from "./firebase"
 import './App.css';
 
@@ -29,7 +29,7 @@ function App() {
             let todo = {
               id: doc.id,
               ...doc.data(),
-              owner:'Anônimo'
+              owner: 'Anônimo'
             }
             if (todo.details) {
               let date = todo.details.deadline.toDate()
@@ -41,11 +41,55 @@ function App() {
           })
         loadSteps(todos)
         loadOwners(todos)
+        loadCollabs(todos)
         setTodos(todos)
         setLoaded(true)
       }).catch(e =>
         console.error(e)
       );
+  }
+
+  const loadCollabs = (todos) => {
+    todos.forEach(todo => {
+      let consulta = query(
+        collection(db, 'collabs'),
+        where('todoid', '==', todo.id)
+      )
+      getDocs(consulta)
+        .then(querySnap => {
+          if (querySnap.empty)
+            return;
+          let collabs = querySnap.docs.map(collabsDoc => {
+            return collabsDoc.data().userid
+          })
+          console.log({ todo: todo.id, collabs: collabs })
+          loadCollabsData(collabs, todo.id, todos)
+        })
+        .catch(e => console.error(e.message))
+    })
+  }
+
+  const loadCollabsData = (collabs, todoId, todos) => {
+    let userCollection = collection(db, 'users');
+    let queryUser = query(
+      userCollection,
+      where(documentId(), 'in', collabs)
+    )
+    getDocs(queryUser)
+      .then(userQuerySnap => {
+        if (userQuerySnap.empty)
+          return;
+        let collabsData = userQuerySnap.docs.map(usersDoc => {
+          return ({ id: usersDoc.id, ...usersDoc.data() })
+        })
+        let newTodos = todos.map(ntodo => {
+          if (ntodo.id === todoId)
+            ntodo.collabs = collabsData
+          return ntodo
+        })
+        setTodos(newTodos)
+      })
+      .catch(e => console.error(e.message))
   }
 
   const loadOwners = (todos) => {
@@ -162,6 +206,15 @@ function App() {
                           </li>
                           : ''}
                         <li>Autor: {todo.owner}</li>
+                        {todo.collabs ? <>
+                          <li>Colaboradores:
+                            <ul>
+                              {todo.collabs.map((user, u) => <li key={`collab_${index}-${u}`}>
+                                {user.name}
+                              </li>)}
+                            </ul>
+                          </li></>
+                          : ''}
                       </ul>
                     </details>
                     : (
@@ -178,13 +231,31 @@ function App() {
                                 </ol>
                               </li>
                               <li>Autor: {todo.owner}</li>
+                              {todo.collabs ? <>
+                                <li>Colaboradores:
+                                  <ul>
+                                    {todo.collabs.map((user, u) => <li key={`collab_${index}-${u}`}>
+                                      {user.name}
+                                    </li>)}
+                                  </ul>
+                                </li></>
+                                : ''}
                             </ul>
                           </details></>
                         : <>{todo.text} &nbsp;| &nbsp;
-                        <span style={{ fontSize: '.7rem' }}>
-                          Autor: {todo.owner}
-                        </span>
-                      </>
+                          <span style={{ fontSize: '.7rem' }}>
+                            Autor: {todo.owner}
+                          </span>
+                          {todo.collabs ? <details>
+                            <summary>Colaboradores:</summary>
+                            <ul>
+                              {todo.collabs.map((user, u) => <li key={`collab_${index}-${u}`}>
+                                {user.name}
+                              </li>)}
+                            </ul>
+                          </details>
+                            : ''}
+                        </>
                     )}
                   <Button
                     onClick={() => editTodo(todo.id)}
