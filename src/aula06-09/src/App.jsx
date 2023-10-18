@@ -1,6 +1,7 @@
+/* eslint-disable react/prop-types */
 import { Button, FormControl, Input, InputLabel, Icon } from '@mui/material'
 import { useEffect, useState } from 'react';
-import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, query, updateDoc, where, documentId } from 'firebase/firestore';
+import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, query, updateDoc, where, documentId, orderBy } from 'firebase/firestore';
 import { db } from "./firebase"
 import './App.css';
 
@@ -41,7 +42,7 @@ function App() {
           })
         loadSteps(todos)
         loadOwners(todos)
-        loadCollabs(todos)
+        // loadCollabs(todos)
         setTodos(todos)
         setLoaded(true)
       }).catch(e =>
@@ -113,7 +114,8 @@ function App() {
   const loadSteps = (todos) => {
     todos.forEach(todo => {
       const stepRef = collection(db, `todos/${todo.id}/steps`)
-      getDocs(stepRef)
+      const stepQuery = query(stepRef,orderBy('order'))
+      getDocs(stepQuery)
         .then(snapSteps => {
           if (snapSteps.empty)
             return;
@@ -161,124 +163,120 @@ function App() {
     getTodos()
   }
 
-  return (
-    <div className="App">
-      <h1>TODO React Firebase</h1>
-      <form>
-        <FormControl>
-          <InputLabel>Write a TODO</InputLabel>
-          <Input
-            value={input}
-            onChange={e =>
-              setInput(e.target.value)
-            } />
-        </FormControl>
-        <Button
-          type="submit"
-          onClick={isEditMode ? updateTodo : addTodo}
-          variant="contained"
-          color="success"
-          disabled={!input}>
-          {!isEditMode ? "Add " : "Edit "}
-          Todo
-        </Button>
-      </form>
-      {!isLoaded
-        ? (<p>
-          Carregando os dados...
-        </p>)
-        : (
-          <ul style={{ listStyle: "none" }}>
-            {
-              todos.map((todo, index) => (
-                <li key={index}>
-                  {todo.details ?
-                    <details style={{ display: 'inline' }}>
-                      <summary>{todo.text}</summary>
-                      <ul>
-                        <li>Prioridade: {todo.details.priority > 0 ? 'Mínima' : 'Máxima'}</li>
-                        <li>Prazo: {todo.details.deadline}</li>
-                        {todo.steps ?
-                          <li>Passos:
-                            <ol>
-                              {todo.steps.map((step, i) => <li key={`step_${index}-${i}`}>
-                                {step.description}
-                              </li>)}
-                            </ol>
-                          </li>
-                          : ''}
-                        <li>Autor: {todo.owner}
-                          {
-                            todo.ownerEmail
-                              ? <>&nbsp;&nbsp; | &nbsp;<i>{todo.ownerEmail}</i></>
-                              : ''}
-                        </li>
-                        {todo.collabs ? <>
-                          <li>Colaboradores:
-                            <ul>
-                              {todo.collabs.map((user, u) => <li key={`collab_${index}-${u}`}>
-                                {user.name}
-                              </li>)}
-                            </ul>
-                          </li></>
-                          : ''}
-                      </ul>
-                    </details>
-                    : (
-                      todo.steps ?
-                        <>
-                          <details style={{ display: 'inline' }}>
-                            <summary>{todo.text}</summary>
-                            <ul>
-                              <li>Passos:
-                                <ol>
-                                  {todo.steps.map((step, i) => <li key={i}>
-                                    {step.description}
-                                  </li>)}
-                                </ol>
-                              </li>
-                              <li>Autor: {todo.owner}</li>
-                              {todo.collabs ? <>
-                                <li>Colaboradores:
-                                  <ul>
-                                    {todo.collabs.map((user, u) => <li key={`collab_${index}-${u}`}>
-                                      {user.name}
-                                    </li>)}
-                                  </ul>
-                                </li></>
-                                : ''}
-                            </ul>
-                          </details></>
-                        : <><b>{todo.text}</b> &nbsp;| &nbsp;
-                          <span style={{ fontSize: '.7rem' }}>
-                            Autor: {todo.owner}
-                          </span>
-                          {todo.collabs ? <details>
-                            <summary>Colaboradores:</summary>
-                            <ul>
-                              {todo.collabs.map((user, u) => <li key={`collab_${index}-${u}`}>
-                                {user.name}
-                              </li>)}
-                            </ul>
-                          </details>
-                            : ''}
-                        </>
-                    )}
-                  <Button
-                    onClick={() => editTodo(todo.id)}
-                    color="primary" >
-                    <Icon>edit_note</Icon>
-                  </Button>
-                  <Button
-                    onClick={() => delTodo(todo.id)}
-                    color="error" >
-                    <Icon>delete_forever</Icon>
-                  </Button>
-                </li>
-              ))}
-          </ul>
+    return (
+      <div className="App">
+        <h1>TODO React Firebase</h1>
+        <form>
+          <FormControl>
+            <InputLabel>Write a TODO</InputLabel>
+            <Input value={input} onChange={e =>
+              setInput(e.target.value)} />
+          </FormControl>
+          <Button
+            type="submit" onClick={!isEditMode ? addTodo : updateTodo}
+            variant="contained"
+            color={isEditMode ? "primary" : "success"}
+            disabled={!input}>
+            {!isEditMode ? "Add" : "Edit"}
+            &nbsp;Todo
+          </Button>
+        </form>
+        {isLoaded ?
+          <TodoList todos={todos} editTodo={editTodo} delTodo={delTodo} />
+          : <p>Loading from Firestore...</p>
+        }
+      </div>
+    );
+
+  }
+
+  function TodoList({ todos, editTodo, delTodo }) {
+    return (
+      <ul style={{ listStyle: "none" }}>
+        {todos.map((todo, index) =>
+          <li key={index}>
+            <Todo todo={todo} key={`todo_${index}`} />
+            <Button key={`btn_${index}`}
+              onClick={() => editTodo(todo.id)}
+              color="primary" >
+              <Icon>edit_note</Icon>
+            </Button>
+            <Button key={`btn_${index + 1}`}
+              onClick={() => delTodo(todo.id)}
+              color="error" >
+              <Icon>delete_forever</Icon>
+            </Button>
+          </li>
         )}
-    </div>
+      </ul>
+    );
+  }
+
+
+function Todo({ todo }) {
+  return (<>
+    {(todo.details || todo.steps || todo.collabs) ?
+      <details style={{ display: 'inline' }}>
+        <summary>{todo.text}
+          &nbsp;|&nbsp;
+          <span style={{ fontSize: '.7rem' }}>
+            Autor: {todo.owner}
+          </span>
+        </summary>
+        <ul style={{ listStyle: "none" }}>
+          {todo.details && <li><TodoDetails details={todo.details} /></li>}
+          {todo.steps && <li><TodoSteps steps={todo.steps} /></li>}
+          {todo.collabs && <li><TodoCollabs collabs={todo.collabs} /></li>}
+        </ul>
+      </details>
+      : <>{todo.text} &nbsp; | &nbsp;
+        <span style={{ fontSize: '.7rem' }}>
+          Autor: {todo.owner}
+        </span>
+      </>}
+  </>);
+}
+
+function TodoDetails({ details }) {
+  return (
+    <details style={{ display: 'inline' }}>
+      <summary>Detalhes</summary>
+      <ul>
+        <li>Prioridade: {details.priority > 0 ? 'Mínima' : 'Máxima'}</li>
+        <li>Prazo: {details.deadline}</li>
+      </ul>
+    </details>
+  )
+}
+
+function TodoSteps({ steps }) {
+  return (
+    <details style={{ display: 'inline' }}>
+      <summary>Passos:</summary>
+      <ol>
+        {steps.map((step, index) =>
+          <li key={`step_${index}`}>
+            {step.description}
+          </li>
+        )}
+      </ol>
+    </details>
+  )
+}
+
+function TodoCollabs({ collabs }) {
+  return (
+    <details style={{ display: 'inline' }}>
+      <summary>Colaboradores:</summary>
+      <ul>
+        {collabs.map((user, index) =>
+          <li key={`collab_${index}`}>
+            {user.name}
+          </li>)}
+      </ul>
+    </details>
   );
 }
+
+
 export default App;
