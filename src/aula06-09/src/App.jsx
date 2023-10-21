@@ -18,40 +18,47 @@ function App() {
     getTodos()
   }, []);
 
-  const getTodos = () => {
-    getDocs(
-      query(collectionRef, 
-        orderBy('text'),
-        startAt('Test'),
-        endAt('Test\uf8ff'))
-      ).then(querySnap => {
-        const docs = querySnap.docs
-        if (!docs.length)
-          throw Error("Empty data!")
+  const getTodos = (query = null) => {
+    if (!query) query = collectionRef
+    getDocs(query).then(querySnap => {
+      const docs = querySnap.docs
+      if (!docs.length) {
+        setTodos([])
+        throw Error("Empty data!")
+      }
 
-        const todos = docs.map(
-          doc => {
-            let todo = {
-              id: doc.id,
-              ...doc.data(),
-              owner: 'Anônimo'
-            }
-            if (todo.details) {
-              let date = todo.details.deadline.toDate()
-              console.log(date);
-              let deadline = `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`
-              todo.details.deadline = deadline;
-            }
-            return todo
-          })
-        loadSteps(todos)
-        loadOwners(todos)
-        // loadCollabs(todos)
-        setTodos(todos)
-        setLoaded(true)
-      }).catch(e =>
-        console.error(e)
-      );
+      const todos = docs.map(
+        doc => {
+          let todo = {
+            id: doc.id,
+            ...doc.data(),
+            owner: 'Anônimo'
+          }
+          if (todo.details) {
+            let date = todo.details.deadline.toDate()
+            console.log(date);
+            let deadline = `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`
+            todo.details.deadline = deadline;
+          }
+          return todo
+        })
+      loadSteps(todos)
+      loadOwners(todos)
+      // loadCollabs(todos)
+      setTodos(todos)
+      setLoaded(true)
+    }).catch(e =>
+      console.error(e)
+    );
+  }
+
+  const setQueryFilter = (term = null) => {
+    if (term)
+      return getTodos(query(collectionRef,
+        orderBy('text'),
+        startAt(term),
+        endAt(term + '\uf8ff')))
+    getTodos()
   }
 
   const loadCollabs = (todos) => {
@@ -167,36 +174,44 @@ function App() {
     getTodos()
   }
 
-    return (
-      <div className="App">
-        <h1>TODO React Firebase</h1>
-        <form>
-          <FormControl>
-            <InputLabel>Write a TODO</InputLabel>
-            <Input value={input} onChange={e =>
-              setInput(e.target.value)} />
-          </FormControl>
-          <Button
-            type="submit" onClick={!isEditMode ? addTodo : updateTodo}
-            variant="contained"
-            color={isEditMode ? "primary" : "success"}
-            disabled={!input}>
-            {!isEditMode ? "Add" : "Edit"}
-            &nbsp;Todo
-          </Button>
-        </form>
-        {isLoaded ?
+  return (
+    <div className="App">
+      <h1>TODO React Firebase</h1>
+      <form>
+        <FormControl>
+          <InputLabel>Write a TODO</InputLabel>
+          <Input value={input} onChange={e =>
+            setInput(e.target.value)} />
+        </FormControl>
+        <Button
+          type="submit" onClick={!isEditMode ? addTodo : updateTodo}
+          variant="contained"
+          color={isEditMode ? "primary" : "success"}
+          disabled={!input}>
+          {!isEditMode ? "Add" : "Edit"}
+          &nbsp;Todo
+        </Button>
+      </form>
+      {isLoaded ?
+        <>
           <TodoList todos={todos} editTodo={editTodo} delTodo={delTodo} />
-          : <p>Loading from Firestore...</p>
-        }
-      </div>
-    );
+          <FormControl>
+            <InputLabel>Filter</InputLabel>
+            <Input onChange={e => setQueryFilter(e.target.value)} />
+          </FormControl>
+        </>
+        : <p>Loading from Firestore...</p>
+      }
+    </div>
+  );
 
-  }
+}
 
-  function TodoList({ todos, editTodo, delTodo }) {
-    return (
-      <ul style={{ listStyle: "none" }}>
+function TodoList({ todos, editTodo, delTodo }) {
+  return (
+    !todos.length
+      ? <p>Sem resultados!</p>
+      : <ul style={{ listStyle: "none" }}>
         {todos.map((todo, index) =>
           <li key={index}>
             <Todo todo={todo} key={`todo_${index}`} />
@@ -213,8 +228,8 @@ function App() {
           </li>
         )}
       </ul>
-    );
-  }
+  );
+}
 
 
 function Todo({ todo }) {
