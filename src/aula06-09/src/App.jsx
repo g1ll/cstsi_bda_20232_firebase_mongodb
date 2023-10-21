@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { Button, FormControl, Input, InputLabel, Icon } from '@mui/material'
 import { useEffect, useState } from 'react';
-import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, query, updateDoc, where, documentId, orderBy } from 'firebase/firestore';
+import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, query, updateDoc, where, documentId, orderBy, startAt, endAt } from 'firebase/firestore';
 import { db } from "./firebase"
 import './App.css';
 
@@ -19,8 +19,12 @@ function App() {
   }, []);
 
   const getTodos = () => {
-    getDocs(collectionRef)
-      .then(querySnap => {
+    getDocs(
+      query(collectionRef, 
+        orderBy('text'),
+        startAt('Test'),
+        endAt('Test\uf8ff'))
+      ).then(querySnap => {
         const docs = querySnap.docs
         if (!docs.length)
           throw Error("Empty data!")
