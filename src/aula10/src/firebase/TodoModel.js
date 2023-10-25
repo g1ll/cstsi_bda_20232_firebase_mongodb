@@ -15,12 +15,15 @@ import {
 import firebaseConfig from "./config"
 console.log(firebaseConfig)
 const db = getFirestore(initializeApp(firebaseConfig));
-const collectionName = 'todo'
+const collectionName = 'todos'
 const todosCollectionRef = collection(db, collectionName);
 
-const createTodo = async ({ text, image  }) => {
+const createTodo = async ({ text, image, image_path}) => {
 	let todo = {text:text}
-	if(image) todo.image = image;
+	if(image)
+		todo.image = image;
+	if(image_path)
+		todo.image_path = image_path;
 	await addDoc(todosCollectionRef,todo)
 }
 

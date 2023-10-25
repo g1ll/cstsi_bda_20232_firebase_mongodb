@@ -10,7 +10,6 @@ import {
 import TodoForm from './TodoForm.jsx';
 import { TodoList } from './TodoList.jsx';
 
-
 import { initializeApp } from 'firebase/app'
 
 import {
@@ -58,7 +57,6 @@ function App() {
       await createTodo({ text: text })
       listTodo()
       setText('')
-      setFileName('')
       return;
     }
     console.log('file uploaded')
@@ -99,17 +97,18 @@ function App() {
         const progress =
           Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
         setProgresspercent(progress)
-        console.log(progresspercent)
+        console.log(progress,"% transferido")
       },//ERROR
       (error) => {
         alert(error);
       },//COMPLETE
       () => {
+        console.log('Transferencia concluida!!!')
         getDownloadURL(uploadTask.snapshot.ref)
           .then(async (downloadURL) => {
             const todo = {
               image: downloadURL,
-              image_path: uploadTask.snapshot.ref,
+              image_path: uploadTask.snapshot.ref._location.path_,
               text: text
             }
             await createTodo(todo);

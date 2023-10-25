@@ -17,7 +17,9 @@ export default function TodoForm(
 			setInput(e.target.value)
 		} />
 		<InputLabel>Give an image:</InputLabel>
-		<InputUploadFile setFile={setFileName} fileName={fileName}></InputUploadFile>
+		<InputUploadFile 
+			setFileName={setFileName}
+			fileName={fileName}></InputUploadFile>
 		<div>
 			<Button
 				type="submit"

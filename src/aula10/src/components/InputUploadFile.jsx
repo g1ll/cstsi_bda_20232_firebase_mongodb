@@ -1,4 +1,5 @@
 /* eslint-disable react/prop-types */
+//https://mui.com/material-ui/react-button/#file-upload
 import { styled } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
@@ -12,21 +13,25 @@ const VisuallyHiddenInput = styled('input')({
 	bottom: 0,
 	left: 0,
 	whiteSpace: 'nowrap',
-	width: 1,
+	width: 1
 });
 
 const ButtonContainer = styled('button')({
 	marginBotton: 10
 });
 
-export default function InputUploadFile({setFile,fileName}) {
+export default function InputUploadFile({ setFileName, fileName }) {
 	return (
 		<ButtonContainer form={'disabled'}>
-			<Button form={'disabled'} component="label" color={fileName?"success":"primary"} variant="contained" startIcon={<CloudUploadIcon />}>
-				{fileName? fileName :"Upload file"}
-				<VisuallyHiddenInput type="file" onChange={e=>{
+			<Button
+				form={'disabled'}
+				component="label"
+				color={fileName ? "success" : "primary"}
+				variant="contained" startIcon={<CloudUploadIcon />}>
+				{fileName ? fileName : "Upload file"}
+				<VisuallyHiddenInput type="file" onChange={e => {
 					console.log(e.target.files)
-					setFile(e.target.files[0].name)
+					setFileName(e.target.files[0].name)
 				}} />
 			</Button>
 		</ButtonContainer>

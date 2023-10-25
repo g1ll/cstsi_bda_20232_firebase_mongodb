@@ -8,6 +8,7 @@ import './App.css';
 function App() {
 
   const [todos, setTodos] = useState([])
+  const [cachedTodos, setCachedTodos] = useState([])
   const [input, setInput] = useState('Digite...')
   const [idToUpdated, setIdToUpdated] = useState()
   const [isLoaded, setLoaded] = useState(false)
@@ -18,9 +19,13 @@ function App() {
     getTodos()
   }, []);
 
-  const getTodos = (query = null) => {
-    if (!query) query = collectionRef
-    getDocs(query).then(querySnap => {
+  useEffect(() => {
+    setTodos(cachedTodos)
+    setLoaded(true)
+  }, [cachedTodos]);
+
+  const getTodos = () => {
+    getDocs(collectionRef).then(querySnap => {
       const docs = querySnap.docs
       if (!docs.length) {
         setTodos([])
@@ -45,7 +50,7 @@ function App() {
       loadSteps(todos)
       loadOwners(todos)
       // loadCollabs(todos)
-      setTodos(todos)
+      setCachedTodos(todos)
       setLoaded(true)
     }).catch(e =>
       console.error(e)
@@ -59,6 +64,16 @@ function App() {
         startAt(term),
         endAt(term + '\uf8ff')))
     getTodos()
+  }
+
+  const setLocalFilter = (term = null) => {
+    if (!term)
+      return setTodos(cachedTodos)
+    term = term.toLocaleLowerCase();
+    let filteredTodos = cachedTodos.filter(todo => {
+      return todo.text.toLocaleLowerCase().includes(term)
+    })
+    setTodos(filteredTodos)
   }
 
   const loadCollabs = (todos) => {
@@ -116,7 +131,7 @@ function App() {
             }
             return ntodo
           })
-          setTodos(newTodos)
+          setCachedTodos(newTodos)
         })
         .catch(e => console.error(e.message))
     })
@@ -138,7 +153,7 @@ function App() {
               ntodo.steps = steps
             return ntodo
           })
-          setTodos(newTodos)
+          setCachedTodos(newTodos)
         })
         .catch(e => console.error(e.message))
     })
@@ -197,7 +212,7 @@ function App() {
           <TodoList todos={todos} editTodo={editTodo} delTodo={delTodo} />
           <FormControl>
             <InputLabel>Filter</InputLabel>
-            <Input onChange={e => setQueryFilter(e.target.value)} />
+            <Input onChange={e => setLocalFilter(e.target.value)} />
           </FormControl>
         </>
         : <p>Loading from Firestore...</p>
