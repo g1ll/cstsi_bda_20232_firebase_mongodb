@@ -1,9 +1,12 @@
 /* eslint-disable react/prop-types */
 import { Button, Input, InputLabel } from "@mui/material";
+import InputUploadFile from "./InputUploadFile";
 
 export default function TodoForm(
 	{ 	input,
 		setInput,
+		setFileName,
+		fileName,
 		editMode,
 		addTodo,
 		updTodo
@@ -14,7 +17,7 @@ export default function TodoForm(
 			setInput(e.target.value)
 		} />
 		<InputLabel>Give an image:</InputLabel>
-		<Input type={'file'} />
+		<InputUploadFile setFile={setFileName} fileName={fileName}></InputUploadFile>
 		<div>
 			<Button
 				type="submit"

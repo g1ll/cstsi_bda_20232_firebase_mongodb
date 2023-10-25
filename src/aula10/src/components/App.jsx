@@ -29,6 +29,7 @@ function App() {
   console.log("Render!!")
   const [todos, setTodos] = useState([])
   const [text, setText] = useState('')
+  const [fileName, setFileName] = useState('')
 
   const [editMode, setEditMode] = useState(false)
   const [todo, setTodo] = useState({})
@@ -53,15 +54,17 @@ function App() {
 
   const addTodo = async e => {
     e.preventDefault()
-    const file = e.target[1]?.files[0];
-
-    if (!file){
+    if(!e.target[1]?.files){
       await createTodo({ text: text })
       listTodo()
       setText('')
+      setFileName('')
       return;
     }
-    submitImage(file)
+    console.log('file uploaded')
+    submitImage(e.target[1]?.files[0])
+    setFileName('')
+    return;
   }
 
   const delTodo = async todoId => {
@@ -106,6 +109,7 @@ function App() {
           .then(async (downloadURL) => {
             const todo = {
               image: downloadURL,
+              image_path: uploadTask.snapshot.ref,
               text: text
             }
             await createTodo(todo);
@@ -122,6 +126,8 @@ function App() {
       <TodoForm
         input={text}
         setInput={setText}
+        setFileName={setFileName}
+        fileName={fileName}
         editMode={editMode}
         addTodo={addTodo}
         updTodo={updTodo} />

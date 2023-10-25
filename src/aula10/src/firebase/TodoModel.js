@@ -13,9 +13,10 @@ import {
 }
 	from "firebase/firestore";
 import firebaseConfig from "./config"
-
+console.log(firebaseConfig)
 const db = getFirestore(initializeApp(firebaseConfig));
-const todosCollectionRef = collection(db, "todos");
+const collectionName = 'todo'
+const todosCollectionRef = collection(db, collectionName);
 
 const createTodo = async ({ text, image  }) => {
 	let todo = {text:text}
@@ -26,23 +27,18 @@ const createTodo = async ({ text, image  }) => {
 const readTodos = async () => {
 	const querySnap = await getDocs(todosCollectionRef)
 	const docs = querySnap.docs
-	console.log(docs)
 	if (!docs.length)
 		throw Error("Empty data!")
 
-	const todosPromises = docs.map(async doc => {
+	let todos = docs.map(async doc => {
 		const todo = ({
 			id: doc.id,
 			...doc.data()
 		})
 
 		todo.details && formatDetailsDate(todo.details)
-		todo.collabs && await getCollabsEmail(todo.collabs)
-
 		return todo;
 	})
-
-	let todos = await Promise.all(todosPromises)
 
 	todos = await Promise.all(await loadSteps(todos))
 	todos = await Promise.all(await loadOwners(todos))
@@ -83,7 +79,7 @@ const loadOwners = async (todos) => {
 
 const loadSteps = async (todos) => {
 	return todos.map(async todo => {
-		const stepRef = collection(db, `todos/${todo.id}/steps`)
+		const stepRef = collection(db, `${collectionName}/${todo.id}/steps`)
 		const stepQuery = query(stepRef, orderBy('order', 'asc'))
 		const snapSteps = await getDocs(stepQuery)
 		
@@ -98,12 +94,14 @@ const loadSteps = async (todos) => {
 }
 
 const updateTodo = async ({ id, text }) => {
-	await updateDoc(doc(db,"todos", id), { text: text })
+	await updateDoc(doc(db,collectionName, id), { text: text })
 }
 
 const deleteTodo = async (todoId) => {
+	//TODO:delete from storage
+	//https://firebase.google.com/docs/storage/web/delete-files?hl=pt-br
 	console.log(todoId)
-	await deleteDoc(doc(db, 'todos', todoId));
+	await deleteDoc(doc(db,collectionName, todoId));
 }
 
 export { createTodo, readTodos, updateTodo, deleteTodo }
