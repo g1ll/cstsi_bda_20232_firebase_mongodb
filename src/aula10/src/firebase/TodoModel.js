@@ -1,4 +1,5 @@
 import { initializeApp } from 'firebase/app'
+import { getStorage, ref, deleteObject } from "firebase/storage";
 import {
 	getFirestore,
 	addDoc,
@@ -14,9 +15,13 @@ import {
 	from "firebase/firestore";
 import firebaseConfig from "./config"
 console.log(firebaseConfig)
-const db = getFirestore(initializeApp(firebaseConfig));
+const firebaseApp = initializeApp(firebaseConfig)
+
+const db = getFirestore(firebaseApp);
 const collectionName = 'todos'
 const todosCollectionRef = collection(db, collectionName);
+
+const storage = getStorage(firebaseApp);
 
 const createTodo = async ({ text, image, image_path}) => {
 	let todo = {text:text}
@@ -104,7 +109,12 @@ const deleteTodo = async (todoId) => {
 	//TODO:delete from storage
 	//https://firebase.google.com/docs/storage/web/delete-files?hl=pt-br
 	console.log(todoId)
-	await deleteDoc(doc(db,collectionName, todoId));
+	let docRef = doc(db,collectionName, todoId)
+	let snapDoc = await getDoc(docRef)
+	let todo = snapDoc.data()
+	if(todo.image)
+		await deleteObject(ref(storage,todo.image_path))
+	await deleteDoc(docRef);
 }
 
 export { createTodo, readTodos, updateTodo, deleteTodo }

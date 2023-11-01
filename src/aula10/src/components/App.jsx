@@ -7,6 +7,7 @@ import {
   deleteTodo
 } from '../firebase/TodoModel.js';
 
+
 import TodoForm from './TodoForm.jsx';
 import { TodoList } from './TodoList.jsx';
 
@@ -19,6 +20,8 @@ import {
   uploadBytesResumable
 }
   from "firebase/storage";
+
+import { v4 as uuidv4 } from 'uuid';
 import firebaseConfig from '../firebase/config'
 
 const firebaseApp = initializeApp(firebaseConfig)
@@ -89,7 +92,8 @@ function App() {
   }
 
   const submitImage = (file) => {
-    const storageRef = ref(storage, `files/${file.name}`);
+    let imageUuid = uuidv4();
+    const storageRef = ref(storage, `files/${imageUuid+file.name}`);
     const uploadTask = uploadBytesResumable(storageRef, file);
 
     uploadTask.on("state_changed",
