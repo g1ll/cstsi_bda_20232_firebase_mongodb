@@ -44,8 +44,8 @@ try {
 
 	//alternativa ao array, leitura de uma arquivo json
 	//lendo os dados a partir de um arquivo json
-	const jsonFile = await readFile('./produtos.json')
-	const produtos = JSON.parse(jsonFile);
+	//const jsonFile = await readFile('./produtos.json')
+	//const produtos = JSON.parse(jsonFile);
 
 	//inserindo varios documentos de uma vez só no banco loja na coleção produtos
 	const result = await client.db('loja')
