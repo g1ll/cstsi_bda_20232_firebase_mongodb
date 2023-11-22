@@ -15,10 +15,10 @@ try {
 
     const dbName = 'loja'
     //consulta simples
-    //SELECT * FROM produtos
-    // const resultados = await client.db(dbName)
-    //             .collection('produtos')
-    //             .find().toArray()
+    // SELECT * FROM produtos
+    const resultados = await client.db(dbName)
+                .collection('produtos')
+                .find().toArray()
 
     //consulta com projeção 
     // const resultados = await client.db(dbName)
@@ -88,6 +88,9 @@ try {
     //         }).toArray()
 
     // Exemplo de operadores de comparação
+    // const collection = client.db(dbName)
+    //      .collection('produtos')
+
     // const filtro = {
     //     importado:{$eq:false},//produtos nacionais
     //     qtd_estoque:{$gte:200}//com 200 ou mais itens em estoque
@@ -97,7 +100,7 @@ try {
     //     projection: { _id: 0,preco: 0, descricao: 0}
     // }
 
-    //opcoes para proximos filtros
+    //alterando opcoes para proximos filtros
     // const opcoes = { 
     //     sort: { preco: 1 },
     //     projection: { _id: 0,
@@ -157,9 +160,7 @@ try {
     //         ]
     //     }
 
-    const collection = client.db(dbName)
-        .collection('produtos')
-    const resultados = await collection.find(filtro, opcoes).toArray()
+    // const resultados = await collection.find(filtro, opcoes).toArray()
      
     console.table(resultados)
 
