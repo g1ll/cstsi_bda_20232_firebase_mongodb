@@ -13,18 +13,18 @@ try {
         console.log("Conectado!");
     else throw Error("Erro ao conectar ao banco !!")
 
-    const dbName = 'loja'
+    const dbName = 'lojaAula12'
     //consulta simples
     // SELECT * FROM produtos
-    const resultados = await client.db(dbName)
-                .collection('produtos')
-                .find().toArray()
+    // const resultados = await client.db(dbName)
+    //             .collection('produtos')
+    //             .find().toArray()
 
     //consulta com projeção 
     // const resultados = await client.db(dbName)
     // .collection('produtos')
-    // .find({},
-    //     {
+    // .find({},//SELECT * 
+    //     { //OPTIONS
     //         projection: {
     //             _id:0,
     //             id_prod: 1,
@@ -35,16 +35,16 @@ try {
     //     }).toArray()
 
     //especificando os campos que não queremos que apareçam
-    // const resultados = await client.db(dbName).collection('produtos')
-    //     .find({},
+    // const resultados = await client.db(dbName)
+    // .collection('produtos').find({},
     //         {
     //             projection: {
     //                 _id: 0,
     //                 qtd_estoque: 0,
     //                 descricao: 0,
-    //                 desconto:0,
-    //                 qtdEstoque:0,
-    //                 price:0
+    //                 // desconto:0,
+    //                 // qtdEstoque:0,
+    //                 // price:0
     //             }
     //         }).toArray()
     // resultados.map((produto,index)=>console.log(`${index} | ${produto.id_prod} | ${produto.nome} | ${produto.preco} | ${produto.importado}`))
@@ -62,57 +62,65 @@ try {
     // const resultados = await client.db(dbName)
     // .collection('produtos')
     //     .find({},{
-    //            sort:{preco:-1},
-    //            projection: { _id: 0,qtd_estoque: 0, descricao: 0}
-    //         }).toArray()
+    //         projection: { _id: 0,qtd_estoque: 0, descricao: 0},
+    //         sort:{preco:-1}
+    //      }).toArray()
 
     //Usando o Sort como um método
     // const resultados = await client.db(dbName).collection('produtos')
-    //     .find().project({
+    //     .find({}).project({
     //                 _id: 0,
     //                 desconto: 0,
     //                 descricao: 0
     //             }).sort({qtd_estoque:-1}).toArray()
 
+    //Ilustrando a construção dinâmica da consulta
+    // const query = client.db(dbName).collection('produtos').find()
+    // if(!columns) 
+    //     query = query.project(columns)
+    // if(!order) 
+    //     query = query.sort(order)
+    // const result = await query.toArray()
+
     //Exemplo de filtro de dados
     // const resultados = await client.db(dbName).collection('produtos')
     //     .find({
     //             preco:{$lt:5000},
-    //             // importado:true
-    //             // importado:{$eq:false},
-    //             // qtd_estoque:{$gte:200}
+    //             // importado:false
+    //             importado:{$eq:false},
+    //             qtd_estoque:{$gte:200}
     //         },
     //         {   
-    //             sort:{preco:1},
+    //             // sort:{preco:1},
     //             projection: { _id: 0, descricao: 0}
     //         }).toArray()
 
     // Exemplo de operadores de comparação
-    // const collection = client.db(dbName)
-    //      .collection('produtos')
+    const collection = client.db(dbName)
+         .collection('produtos')
 
     // const filtro = {
     //     importado:{$eq:false},//produtos nacionais
     //     qtd_estoque:{$gte:200}//com 200 ou mais itens em estoque
     // }
     // const opcoes = {   
-    //     sort:{qtd_estoque:1},
+    //     sort:{qtd_estoque:-1},
     //     projection: { _id: 0,preco: 0, descricao: 0}
     // }
 
     //alterando opcoes para proximos filtros
-    // const opcoes = { 
-    //     sort: { preco: 1 },
-    //     projection: { _id: 0,
-    //                  descricao: 0,
-    //                  desconto:0,
-    //                  qtdEstoque:0,
-    //                  price:0 }
-    //  }
+    const opcoes = { 
+        sort: { preco: 1 },
+        projection: { _id: 0,
+                     descricao: 0,
+                     desconto:0,
+                     qtdEstoque:0,
+                     price:0 }
+     }
 
     //Exemplo de filtro com in ou nin
     // const filtro = {
-    //     id_prod:{$in:[111,115,125,124,136,114]}
+    //     id_prod:{$in:[111,115,125,124]}
     // }
 
     //OPERADORES LÓGICOS
@@ -127,6 +135,7 @@ try {
     //NOT
     // const filtro = {
     //     preco:{$not:{$gte:5000}} //$lt
+    //     // preco:{$lt:5000}
     // }
 
     //OR
@@ -160,7 +169,8 @@ try {
     //         ]
     //     }
 
-    // const resultados = await collection.find(filtro, opcoes).toArray()
+
+    const resultados = await collection.find(filtro, opcoes).toArray()
      
     console.table(resultados)
 

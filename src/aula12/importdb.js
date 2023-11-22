@@ -11,21 +11,17 @@ const client = new MongoClient(uri);
 try {
     await client.connect()
     if (!client.db('admin').command({ "ping": 1 }))
-        throw Error("Erro ao conectar ao banco !!")
+        throw new Error("Erro ao conectar ao banco !!")
     console.log("Conectado!");
 
     const data = await fs.readFile("./loja.json");
     const produtos = JSON.parse(data)
 
-    if (typeof produtos === 'undefined' && !produtos)
-        throw Error('Arquivo não encontrado!!')
-
-    const mongoDb = client.db('lojaAula07')
+    const mongoDb = client.db('lojaAula12')
     const mongoCollection = mongoDb.collection('produtos')
-    const result = await
-     mongoCollection.insertMany(produtos);
+    const result = await mongoCollection.insertMany(produtos);
     if (result.insertedCount == 0)
-        throw Error('Erro ao importar protudos!')
+        throw new Error('Erro ao importar protudos!')
     console.info("Produtos importados com sucesso!")
     console.log({
         "sucess": true,
