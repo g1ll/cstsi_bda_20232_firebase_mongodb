@@ -18,7 +18,8 @@ try {
 	// 	descricao:"Testando inserção de novo produto"
 	// }
 
-	// const produtoCollection = client.db('loja').collection('produtos')
+	// const db = client.db('shop')
+	// const produtoCollection = db.collection('produtos')
 	// const result = await produtoCollection.insertOne(produto)
 
 	//Insert Many
@@ -44,19 +45,18 @@ try {
 
 	//alternativa ao array, leitura de uma arquivo json
 	//lendo os dados a partir de um arquivo json
-	//const jsonFile = await readFile('./produtos.json')
-	//const produtos = JSON.parse(jsonFile);
+	const jsonFile = await readFile('./produtos.json')
+	const produtos = JSON.parse(jsonFile);
 
 	//inserindo varios documentos de uma vez só no banco loja na coleção produtos
-	const result = await client.db('loja')
-				.collection('produtos')
-				.insertMany(produtos)
+	const result = await client.db('shop')
+		.collection('produtos')
+		.insertMany(produtos)
 
 
 	result?.acknowledged && console.log("Produto inserido!!")
+	
 	console.log(result)
-
-
 
 } catch (error) {
 	console.log("ERROR")

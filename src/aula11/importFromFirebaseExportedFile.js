@@ -17,8 +17,8 @@ try {
             })
 
 
-            const mongoDb = client.db('loja_fire')
-            const mongoCollection = mongoDb.collection('produtos')
+            const mongoDb = client.db('shop')
+            const mongoCollection = mongoDb.collection('produtos_fire')
             const result = await mongoCollection.insertMany(arrayDocs);
             if (result.insertedCount == 0)
                 throw Error('Erro ao importar protudos!')
