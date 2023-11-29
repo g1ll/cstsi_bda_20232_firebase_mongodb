@@ -14,13 +14,13 @@ try {
         throw Error("Erro ao conectar ao banco !!")
     console.log("Conectado!");
 
-    const data = await fs.readFile("./loja.json");
+    const data = await fs.readFile("./loja_descontos.json");
     const produtos = JSON.parse(data)
 
     if (typeof produtos === 'undefined' && !produtos)
         throw Error('Arquivo não encontrado!!')
 
-    const mongoDb = client.db('lojaAula07')
+    const mongoDb = client.db('lojaAula12')
     const mongoCollection = mongoDb.collection('produtos')
     const result = await
      mongoCollection.insertMany(produtos);
