@@ -25,7 +25,7 @@ try {
 
     //Exemplo de uso da sensibilidade diacritica
     //Retornará apenas os produtos com a palavra reclinável com acento
-    // const termo = "reclinavel"
+    // const termo = "reclinavel" 
     // let filtro = {
     //     $text: {
     //         $search: termo,
@@ -45,8 +45,9 @@ try {
     // }
 
     // //Exemplo busca por frases, índice descricao
-    // const termo = "smart"
-    // const termo = "\"SmartTV SAMSUMG\""
+    // const termo = 'SmartTV SAMSUMG' //termos separados
+    //const termo = '"SmartTV SAMSUMG"' //considera a frase
+    const termo = "\"SmartTV SAMSUMG\""
     let filtro = {
         $text: {
             $search: termo,
@@ -61,10 +62,10 @@ try {
 
      const opcoes = { 
         sort: { nome: 1 },
-        projection: { _id: 0, nome:0 }
+        projection: { _id: 0, descricao:1 }
      }
 
-    const collection = client.db('loja')
+    const collection = client.db('lojaAula12')
         .collection('produtos')
     const resultados = await collection.find(filtro, opcoes).toArray()
     console.table(resultados)
