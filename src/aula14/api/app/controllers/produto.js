@@ -10,31 +10,33 @@ const index = async (req, res) => {
     } else if (req.query.field && req.query.search) {
         listProds = await model.getFilteredProdutos(req.query.field, req.query.search);
     } else {
+        console.log("Index padrão!!");
         listProds = await model.getAllProdutos();
     }
-    if (!listProds)
+    if (!listProds || listProds.length==0)
         return res.status(404).send({ "message": "Sem resultados" })
     res.send(listProds);
 }
 
 const filterPrice = async (req, res) => {
+    let statusError = 500;
     try {
-        let statusError = 500;
         if (!req.query.greater || !req.query.less) {
-            statusError = 401;
+            statusError = 422;
             throw new Error('Faltam parâmetros!')
         }
-        const greater = Number(req.query.greater)
+        const greater = parseFloat(req.query.greater)
         const less = Number(req.query.less)
         const sort = req.query.sort ? req.query.sort : -1
-        const listProds = await model.getProdutosPriceRange(greater, less, sort)
-        if (!listProds){
+        const listProds = await model.getProdutosPriceRange(
+            greater, less, sort)
+        if (!listProds || listProds.length==0 ){
             statusError = 404;
             throw new Error('Sem resultados!')
         }
         res.send(listProds)
     } catch (error) {
-        const mensagem = { erro: error }
+        const mensagem = { erro: error.message }
         console.log(mensagem)
         res.status(statusError);
         res.send(mensagem)
