@@ -11,7 +11,7 @@ import {
 import { Router } from 'express';
 
 const routes = Router();
-routes.get('/', index)
+routes.get('/', index) //http://localhost:3000/produtos/
 routes.get('/filter_price/', filterPrice)
 routes.get('/:id', show)
 routes.post('/', store)
